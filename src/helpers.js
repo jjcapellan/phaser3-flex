@@ -147,11 +147,11 @@ const h = {
     },
 
     getFreeSpaceH: (f) => {
-        return f.width - h.getItemsWidth() - 2 * f.padding;
+        return f.width - h.getItemsWidth(f) - 2 * f.padding;
     },
 
     getFreeSpaceV: (f) => {
-        return f.height - h.getItemsHeight() - 2 * f.padding;
+        return f.height - h.getItemsHeight(f) - 2 * f.padding;
     },
 
     getItemsWidth: (f) => {
