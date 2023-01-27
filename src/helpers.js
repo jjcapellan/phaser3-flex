@@ -122,7 +122,7 @@ const h = {
 
         for (let i = 0; i < groupLength; i++) {
             h.setItemWidth(f, group[i], freeSpace);
-            let item = group[i].item;
+            let item = group[i];
             item.setOrigin(0, 0);
             item.setX(itemX);
             itemX += item.width + f.itemsMargin;
@@ -139,7 +139,7 @@ const h = {
 
         for (let i = 0; i < groupLength; i++) {
             h.setItemHeight(f, group[i], freeSpace);
-            let item = group[i].item;
+            let item = group[i];
             item.setOrigin(0, 0);
             item.setY(y);
             y += item.height + f.itemsMargin;
@@ -171,7 +171,7 @@ const h = {
         let groupLength = f.items.length;
         let heightsSum = 0;
         for (let i = 0; i < groupLength; i++) {
-            let item = group[i].item;
+            let item = group[i];
             heightsSum += item.height;
         }
         let paddingsSum = (groupLength - 1) * f.itemsMargin;
@@ -379,7 +379,7 @@ const h = {
         }
 
         for (let i = 0; i < groupLength; i++) {
-            let item = group[i].item;
+            let item = group[i];
             item.setOrigin(0, 0);
             item.setX(x);
             x += item.width + padding + f.itemsMargin;
@@ -402,7 +402,7 @@ const h = {
         }
 
         for (let i = 0; i < groupLength; i++) {
-            let item = group[i].item;
+            let item = group[i];
             item.setOrigin(0, 0);
             item.setY(y);
             y += item.height + padding + f.itemsMargin;
