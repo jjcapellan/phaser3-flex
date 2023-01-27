@@ -22,7 +22,7 @@ export default class Test extends Phaser.Scene {
         const item3 = this.add.image(500, 50, 'item40x20');
 
         // Instructions
-        this.add.text(cx, 590, 'Click on screen to run command', { fontFamily: 'Roboto', fontSize: 24, color: '#555568' })
+        const infoText = this.add.text(cx, 590, 'Click on screen to run command', { fontFamily: 'Roboto', fontSize: 24, color: '#555568' })
             .setOrigin(0.5, 1);
 
         // Active Command
@@ -88,6 +88,34 @@ export default class Test extends Phaser.Scene {
             }
         });
 
+        tasks.push({
+            text: 'flex.setJustifyContent(Fbx.JustifyContent.FLEX_END)',
+            fn: () => {
+                flex.setJustifyContent(Fbx.JustifyContent.FLEX_END);
+            }
+        });
+
+        tasks.push({
+            text: 'flex.setJustifyContent(Fbx.JustifyContent.SPACE_AROUND)',
+            fn: () => {
+                flex.setJustifyContent(Fbx.JustifyContent.SPACE_AROUND);
+            }
+        });
+
+        tasks.push({
+            text: 'flex.setJustifyContent(Fbx.JustifyContent.SPACE_BETWEEN)',
+            fn: () => {
+                flex.setJustifyContent(Fbx.JustifyContent.SPACE_BETWEEN);
+            }
+        });
+
+        tasks.push({
+            text: 'flex.setJustifyContent(Fbx.JustifyContent.FLEX_START)',
+            fn: () => {
+                flex.setJustifyContent(Fbx.JustifyContent.FLEX_START);
+            }
+        });
+
         cmdText.setText(tasks[counter].text);
 
 
@@ -100,7 +128,11 @@ export default class Test extends Phaser.Scene {
             tasks[counter].fn();
             this.drawFlex(g, flex);
             counter++;
-            if (counter >= tasks.length) return;
+            if (counter >= tasks.length) {
+                cmdText.setText('--- DEMO COMPLETED ---');
+                infoText.setVisible(false);
+                return;
+            }
             cmdTw.play();
         });
     }

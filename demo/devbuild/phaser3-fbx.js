@@ -134,7 +134,7 @@
       let itemX = f._bounds.left;
       for (let i = 0; i < groupLength; i++) {
         h.setItemWidth(f, group[i], freeSpace);
-        let item = group[i].item;
+        let item = group[i];
         item.setOrigin(0, 0);
         item.setX(itemX);
         itemX += item.width + f.itemsMargin;
@@ -148,17 +148,17 @@
       let y = f._bounds.top;
       for (let i = 0; i < groupLength; i++) {
         h.setItemHeight(f, group[i], freeSpace);
-        let item = group[i].item;
+        let item = group[i];
         item.setOrigin(0, 0);
         item.setY(y);
         y += item.height + f.itemsMargin;
       }
     },
     getFreeSpaceH: (f) => {
-      return f.width - h.getItemsWidth() - 2 * f.padding;
+      return f.width - h.getItemsWidth(f) - 2 * f.padding;
     },
     getFreeSpaceV: (f) => {
-      return f.height - h.getItemsHeight() - 2 * f.padding;
+      return f.height - h.getItemsHeight(f) - 2 * f.padding;
     },
     getItemsWidth: (f) => {
       let group = f.items;
@@ -176,7 +176,7 @@
       let groupLength = f.items.length;
       let heightsSum = 0;
       for (let i = 0; i < groupLength; i++) {
-        let item = group[i].item;
+        let item = group[i];
         heightsSum += item.height;
       }
       let paddingsSum = (groupLength - 1) * f.itemsMargin;
@@ -349,7 +349,7 @@
         x = h.getLeft(f) + f.padding;
       }
       for (let i = 0; i < groupLength; i++) {
-        let item = group[i].item;
+        let item = group[i];
         item.setOrigin(0, 0);
         item.setX(x);
         x += item.width + padding + f.itemsMargin;
@@ -369,7 +369,7 @@
         y = h.getTop(f) + f.padding;
       }
       for (let i = 0; i < groupLength; i++) {
-        let item = group[i].item;
+        let item = group[i];
         item.setOrigin(0, 0);
         item.setY(y);
         y += item.height + padding + f.itemsMargin;
