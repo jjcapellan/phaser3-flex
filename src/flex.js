@@ -17,6 +17,8 @@ class Flex {
             // Size changes if new items are added or removed
             this.fitContent = true;
         }
+
+        return this;
     }
 }
 
