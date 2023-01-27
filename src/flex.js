@@ -20,6 +20,59 @@ class Flex {
 
         return this;
     }
+
+    add() {
+
+    }
+
+    remove() {
+
+    }
+
+    destroy() {
+
+    }
+
+    setAlignItems() {
+
+    }
+
+    setFitContent() {
+
+    }
+
+    setHeight() {
+
+    }
+
+    setWidth() {
+
+    }
+
+    setJustifyContent() {
+
+    }
+
+    setOrigin() {
+
+    }
+
+    // Items shouldn't move
+    setScrollFactor() {
+
+    }
+
+    setX() {
+
+    }
+
+    setY() {
+
+    }
+
+    setVisible() {
+
+    }
 }
 
 export { Flex };
