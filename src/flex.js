@@ -191,8 +191,28 @@ class Flex {
         return this;
     }
 
-    setOrigin() {
+    setOrigin(x, y) {
+        if (y == undefined) {
+            y = x;
+        }
 
+        this.origin.x = x;
+        this.origin.y = y;
+
+        if (x > 1) {
+            this.origin.x = 1;
+        };
+        if (x < 0) {
+            this.origin.x = 0;
+        };
+        if (y > 1) {
+            this.origin.y = 1;
+        };
+        if (y < 0) {
+            this.origin.y = 0;
+        };
+
+        return this;
     }
 
     // Items shouldn't move
