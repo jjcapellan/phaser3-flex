@@ -98,7 +98,7 @@ class Flex {
                 break;
 
             case AlignItems.FLEX_START:
-                if (t.flexDirection == FlexDirection.ROW) {
+                if (this.flexDirection == FlexDirection.ROW) {
                     h.setAlignV(this, Alignment.TOP);
                 } else {
                     h.setAlignH(this, Alignment.LEFT);
