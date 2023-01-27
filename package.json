@@ -1,0 +1,26 @@
+{
+  "name": "phaser3-fbx",
+  "version": "0.1.0",
+  "description": "",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "node ./scripts/build.js",
+    "build:dev": "node ./scripts/build_dev.js",
+    "build:demo": "node ./scripts/build_demo.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "phaser",
+    "phaser3",
+    "ui",
+    "hud",
+    "flexbox"
+  ],
+  "author": "Juan Jose Capellan",
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "^0.17.4",
+    "phaser": "^3.55.2"
+  }
+}
