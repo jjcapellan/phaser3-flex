@@ -11,6 +11,7 @@ export default class Test extends Phaser.Scene {
         const g = this.add.graphics();
 
         let flex;
+        let ready = true;
 
         let counter = 0;
         const tasks = [];
@@ -25,8 +26,24 @@ export default class Test extends Phaser.Scene {
             .setOrigin(0.5, 1);
 
         // Active Command
-        this.cmdText = this.add.text(cx, cy - 60, '', { fontFamily: 'monospace', fontSize: 18, color: '#555568' })
+        const cmdText = this.add.text(cx, cy - 60, '', { fontFamily: 'monospace', fontSize: 18, color: '#555568' })
             .setOrigin(0.5);
+
+        // Command tween
+        const cmdTw = this.tweens.add({
+            targets: cmdText,
+            alpha: 0.1,
+            duration: 400,
+            ease: 'Quad.easeIn',
+            yoyo: true,
+            paused: true,
+            onYoyo: () => {
+                cmdText.setText(tasks[counter].text);
+            },
+            onComplete: () => {
+                ready = true;
+            }
+        });
 
         // Tasks
         tasks.push({
@@ -64,15 +81,27 @@ export default class Test extends Phaser.Scene {
             }
         });
 
-        this.cmdText.setText(tasks[counter].text);
+        tasks.push({
+            text: 'flex.setJustifyContent(Fbx.JustifyContent.CENTER)',
+            fn: () => {
+                flex.setJustifyContent(Fbx.JustifyContent.CENTER);
+            }
+        });
+
+        cmdText.setText(tasks[counter].text);
 
 
 
         this.input.on('pointerdown', () => {
+            if (!ready) {
+                return;
+            }
+            ready = false;
             tasks[counter].fn();
-            this.cmdText.setText(tasks[counter + 1].text);
             this.drawFlex(g, flex);
             counter++;
+            if (counter >= tasks.length) return;
+            cmdTw.play();
         });
     }
 

@@ -165,7 +165,7 @@
       let groupLength = f.items.length;
       let widthsSum = 0;
       for (let i = 0; i < groupLength; i++) {
-        let item = group[i].item;
+        let item = group[i];
         widthsSum += item.width;
       }
       let paddingsSum = (groupLength - 1) * f.itemsMargin;
