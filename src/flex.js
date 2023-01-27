@@ -1,4 +1,4 @@
-import {AlignItems, FlexDirection, JustifyContent} from './constants.js';
+import { AlignItems, FlexDirection, JustifyContent } from './constants.js';
 class Flex {
     constructor(config) {
         this.x = config.x || 0;
@@ -10,6 +10,13 @@ class Flex {
         this.alignItems = config.alignItems || AlignItems.CENTER;
         this.flexDirection = config.flexDirection || FlexDirection.ROW;
         this.justifyContent = config.justifyContent || JustifyContent.FLEX_START;
+        this.origin = { x: 0, y: 0 };
+
+        if ((this.flexDirection == FlexDirection.ROW && !this.width) ||
+            (this.flexDirection == FlexDirection.COLUMN && !this.height)) {
+            // Size changes if new items are added or removed
+            this.fitContent = true;
+        }
     }
 }
 
