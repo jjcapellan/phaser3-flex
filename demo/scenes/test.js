@@ -10,15 +10,70 @@ export default class Test extends Phaser.Scene {
         const cy = this.scale.height / 2;
         const g = this.add.graphics();
 
+        let flex;
 
-        this.add.text(cx, cy - 80, 'Demo', { fontFamily: 'Roboto', fontSize: 24, color: '#555568' })
-            .setOrigin(0.5);
-        const item = this.add.image(0, 0, 'item20x20');
+        let counter = 0;
+        const tasks = [];
 
-        let flex = new Fbx.Flex({ x: cx, y: cy, width: 400 })
+        // Items
+        const item1 = this.add.image(300, 50, 'item20x20');
+        const item2 = this.add.image(400, 100, 'item20x40');
+        const item3 = this.add.image(500, 50, 'item40x20');
+
+        // Instructions
+        this.add.text(cx, 590, 'Click on screen to run command', { fontFamily: 'Roboto', fontSize: 24, color: '#555568' })
+            .setOrigin(0.5, 1);
+
+        // Active Command
+        this.cmdText = this.add.text(cx, cy - 60, '', { fontFamily: 'monospace', fontSize: 18, color: '#555568' })
             .setOrigin(0.5);
-        flex.add(item);
-        this.drawFlex(g, flex);
+
+        // Tasks
+        tasks.push({
+            text: 'let flex = new Fbx.Flex({ x: centerX, y: centerY, width: 400 })',
+            fn: () => {
+                flex = new Fbx.Flex({ x: cx, y: cy, width: 400 });
+            }
+        });
+
+        tasks.push({
+            text: 'flex.setOrigin(0.5)',
+            fn: () => {
+                flex.setOrigin(0.5);
+            }
+        });
+
+        tasks.push({
+            text: 'flex.add(item1)',
+            fn: () => {
+                flex.add(item1);
+            }
+        });
+
+        tasks.push({
+            text: 'flex.add(item2)',
+            fn: () => {
+                flex.add(item2);
+            }
+        });
+
+        tasks.push({
+            text: 'flex.add(item3)',
+            fn: () => {
+                flex.add(item3);
+            }
+        });
+
+        this.cmdText.setText(tasks[counter].text);
+
+
+
+        this.input.on('pointerdown', () => {
+            tasks[counter].fn();
+            this.cmdText.setText(tasks[counter + 1].text);
+            this.drawFlex(g, flex);
+            counter++;
+        });
     }
 
     drawFlex(g, flex) {
