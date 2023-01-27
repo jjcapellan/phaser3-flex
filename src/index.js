@@ -1,16 +1,18 @@
-class Flex {
-    constructor(config) {
-        this.x = config.x || 0;
-        this.y = config.y || 0;
-        this.width = config.width || 0;
-        this.height = config.height || 0;
-    }
-}
+import { Flex } from './flex.js';
+import { AlignItems, FlexDirection, JustifyContent } from './constants.js';
 
 if (typeof window != 'undefined') {
     globalThis.Fbx = {
-        Flex: Flex
+        Flex: Flex,
+        AlignItems: AlignItems,
+        FlexDirection: FlexDirection,
+        JustifyContent: JustifyContent
     };
 }
 
-export { Flex };
+export {
+    AlignItems,
+    Flex,
+    FlexDirection,
+    JustifyContent
+};
