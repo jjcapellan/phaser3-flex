@@ -24,7 +24,7 @@ export default class Test extends Phaser.Scene {
         // Instructions
         const infoText = this.add.text(cx, 590, 'Click on screen to run command', { fontFamily: 'Roboto', fontSize: 24, color: '#555568' })
             .setOrigin(0.5, 1);
-        
+
         // Very old Command
         const oldCmdText2 = this.add.text(cx, cy - 110, '', { fontFamily: 'monospace', fontSize: 8, color: '#555568' })
             .setAlpha(0.2)
@@ -115,6 +115,13 @@ export default class Test extends Phaser.Scene {
         });
 
         tasks.push({
+            text: 'flex.setWidth(600)',
+            fn: () => {
+                flex.setWidth(600);
+            }
+        });
+
+        tasks.push({
             text: 'flex.setJustifyContent(Fbx.JustifyContent.SPACE_BETWEEN)',
             fn: () => {
                 flex.setJustifyContent(Fbx.JustifyContent.SPACE_BETWEEN);
@@ -122,9 +129,16 @@ export default class Test extends Phaser.Scene {
         });
 
         tasks.push({
-            text: 'flex.setJustifyContent(Fbx.JustifyContent.FLEX_START)',
+            text: 'flex.setJustifyContent(Fbx.JustifyContent.CENTER)',
             fn: () => {
-                flex.setJustifyContent(Fbx.JustifyContent.FLEX_START);
+                flex.setJustifyContent(Fbx.JustifyContent.CENTER);
+            }
+        });
+
+        tasks.push({
+            text: 'flex.setWidth(300)',
+            fn: () => {
+                flex.setWidth(300);
             }
         });
 

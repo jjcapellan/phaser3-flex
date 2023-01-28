@@ -136,8 +136,11 @@ class Flex {
 
     }
 
-    setWidth() {
-
+    setWidth(width) {
+        this.width = width;
+        h.updateBounds(this);
+        h.setItems(this);
+        return this;
     }
 
     setJustifyContent(justifyContent) {
