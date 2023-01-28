@@ -48,11 +48,11 @@
     },
     alignCrossStretch: (f, dim, bound, setXY) => {
       let items = f.items;
-      let maxSize = (void 0)[dim] - 2 * (void 0).padding;
+      let maxSize = f[dim] - 2 * f.padding;
       let xy = bound + f.padding;
       for (let i = 0; i < items.length; i++) {
         let item = items[i];
-        if (item.fitContent && (void 0).flexDirection != item.flexDirection) {
+        if (item.fitContent && f.flexDirection != item.flexDirection) {
           item.fitContent = false;
         }
         item[setXY](xy);
@@ -61,7 +61,7 @@
         }
       }
       for (let i = 0; i < items.length; i++) {
-        let item = items[i].item;
+        let item = items[i];
         if (dim == "width") {
           h.setItemDisplaySize(item, maxSize, item.height);
           continue;
@@ -191,8 +191,8 @@
     resetHeights: (f) => {
       for (let i = 0; i < f.items.length; i++) {
         let item = f.items[i];
-        h.setItemDisplaySize(f, item, item.width, f.heights[i]);
-        item.height = f.heights[i];
+        h.setItemDisplaySize(item, item.width, f._heights[i]);
+        item.height = f._heights[i];
       }
     },
     resetWidths: (f) => {
@@ -312,7 +312,7 @@
         }
         height = item.flexShrink / f.shrinkSum * freeSpace + item.height;
       }
-      h.setItemDisplaySize(f, item, item.width, height);
+      h.setItemDisplaySize(item, item.width, height);
       item.height = height;
     },
     setItemWidth: (f, item, freeSpace) => {
@@ -332,7 +332,7 @@
         }
         width = item.flexShrink / f.shrinkSum * freeSpace + item.width;
       }
-      h.setItemDisplaySize(f, item, width, item.height);
+      h.setItemDisplaySize(item, width, item.height);
       item.width = width;
     },
     setJustifyH: (f) => {
@@ -450,7 +450,7 @@
     }
     setAlignItems(alignItems) {
       if (this.alignItems == AlignItems.STRETCH && alignItems != AlignItems.STRETCH) {
-        if (this.flexDirection == Flex.FlexDirection.row) {
+        if (this.flexDirection == FlexDirection.ROW) {
           h.resetHeights(this);
         } else {
           h.resetWidths(this);
@@ -466,7 +466,7 @@
           }
           break;
         case AlignItems.FLEX_START:
-          if (t.flexDirection == FlexDirection.ROW) {
+          if (this.flexDirection == FlexDirection.ROW) {
             h.setAlignV(this, Alignment.TOP);
           } else {
             h.setAlignH(this, Alignment.LEFT);
@@ -481,9 +481,9 @@
           break;
         case AlignItems.STRETCH:
           if (this.flexDirection == FlexDirection.ROW) {
-            h.setAlignV(Alignment.STRETCH);
+            h.setAlignV(this, Alignment.STRETCH);
           } else {
-            h.setAlignH(Alignment.STRETCH);
+            h.setAlignH(this, Alignment.STRETCH);
           }
           break;
         default:

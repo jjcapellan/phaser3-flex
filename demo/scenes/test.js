@@ -116,6 +116,34 @@ export default class Test extends Phaser.Scene {
             }
         });
 
+        tasks.push({
+            text: 'flex.setAlignItems(Fbx.AlignItems.FLEX_START)',
+            fn: () => {
+                flex.setAlignItems(Fbx.AlignItems.FLEX_START);
+            }
+        });
+
+        tasks.push({
+            text: 'flex.setAlignItems(Fbx.AlignItems.FLEX_END)',
+            fn: () => {
+                flex.setAlignItems(Fbx.AlignItems.FLEX_END);
+            }
+        });
+
+        tasks.push({
+            text: 'flex.setAlignItems(Fbx.AlignItems.STRETCH)',
+            fn: () => {
+                flex.setAlignItems(Fbx.AlignItems.STRETCH);
+            }
+        });
+
+        tasks.push({
+            text: 'flex.setAlignItems(Fbx.AlignItems.CENTER)',
+            fn: () => {
+                flex.setAlignItems(Fbx.AlignItems.CENTER);
+            }
+        });
+
         cmdText.setText(tasks[counter].text);
 
 
