@@ -68,8 +68,21 @@ class Flex {
 
     }
 
-    remove() {
+    remove(index, destroy) {
+        if (this.items[index] == undefined) {
+            return;
+        }
+        let item = this.items[index];
+        this.items.splice(index, 1);
+        this._heights.splice(index, 1);
+        this._widths.splice(index, 1);
 
+        if (destroy) {
+            item.destroy();
+        }
+
+        h.setItems(this);
+        return this;
     }
 
     destroy() {
