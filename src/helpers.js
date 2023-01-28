@@ -23,12 +23,12 @@ const h = {
 
     alignCrossStretch: (f, dim, bound, setXY) => {
         let items = f.items;
-        let maxSize = this[dim] - 2 * this.padding;
+        let maxSize = f[dim] - 2 * f.padding;
         let xy = bound + f.padding;
 
         for (let i = 0; i < items.length; i++) {
             let item = items[i];
-            if (item.fitContent && this.flexDirection != item.flexDirection) {
+            if (item.fitContent && f.flexDirection != item.flexDirection) {
                 item.fitContent = false;
             }
             item[setXY](xy);
@@ -38,7 +38,7 @@ const h = {
         }
 
         for (let i = 0; i < items.length; i++) {
-            let item = items[i].item;
+            let item = items[i];
             if (dim == 'width') {
                 h.setItemDisplaySize(item, maxSize, item.height);
                 continue;
@@ -190,8 +190,8 @@ const h = {
     resetHeights: (f) => {
         for (let i = 0; i < f.items.length; i++) {
             let item = f.items[i];
-            h.setItemDisplaySize(f, item, item.width, f.heights[i]);
-            item.height = f.heights[i];
+            h.setItemDisplaySize(item, item.width, f._heights[i]);
+            item.height = f._heights[i];
         }
     },
 
@@ -333,7 +333,7 @@ const h = {
             height = (item.flexShrink / f.shrinkSum) * freeSpace + item.height;
         }
 
-        h.setItemDisplaySize(f, item, item.width, height);
+        h.setItemDisplaySize(item, item.width, height);
         item.height = height;
     },
 
@@ -359,7 +359,7 @@ const h = {
             width = (item.flexShrink / f.shrinkSum) * freeSpace + item.width;
         }
 
-        h.setItemDisplaySize(f, item, width, item.height);
+        h.setItemDisplaySize(item, width, item.height);
         item.width = width;
     },
 

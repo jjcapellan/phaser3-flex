@@ -79,7 +79,7 @@ class Flex {
     setAlignItems(alignItems) {
 
         if (this.alignItems == AlignItems.STRETCH && alignItems != AlignItems.STRETCH) {
-            if (this.flexDirection == Flex.FlexDirection.row) {
+            if (this.flexDirection == FlexDirection.ROW) {
                 h.resetHeights(this);
             } else {
                 h.resetWidths(this);
@@ -115,9 +115,9 @@ class Flex {
 
             case AlignItems.STRETCH:
                 if (this.flexDirection == FlexDirection.ROW) {
-                    h.setAlignV(Alignment.STRETCH);
+                    h.setAlignV(this, Alignment.STRETCH);
                 } else {
-                    h.setAlignH(Alignment.STRETCH);
+                    h.setAlignH(this, Alignment.STRETCH);
                 }
                 break;
 
