@@ -23,17 +23,17 @@ export default class Load extends Phaser.Scene {
 
     generateTextures() {
         let g = this.add.graphics();
-        g.fillStyle(0x555568, 1);
+        g.fillStyle(xfrontColor, 1);
         g.fillRect(0, 0, 20, 20);
         g.generateTexture('item20x20', 20, 20);
 
         g.clear();
-        g.fillStyle(0x555568, 1);
+        g.fillStyle(xfrontColor, 1);
         g.fillRect(0, 0, 20, 40);
         g.generateTexture('item20x40', 20, 40);
 
         g.clear();
-        g.fillStyle(0x555568, 1);
+        g.fillStyle(xfrontColor, 1);
         g.fillRect(0, 0, 40, 20);
         g.generateTexture('item40x20', 40, 20);
         g.setVisible(false);

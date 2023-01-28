@@ -22,21 +22,21 @@ export default class Test extends Phaser.Scene {
         const item3 = this.add.image(500, 50, 'item40x20');
 
         // Instructions
-        const infoText = this.add.text(cx, 590, 'Click on screen to run command', { fontFamily: 'Roboto', fontSize: 24, color: '#555568' })
+        const infoText = this.add.text(cx, 590, 'Click on screen to run command', { fontFamily: 'Roboto', fontSize: 24, color: frontColor })
             .setOrigin(0.5, 1);
 
         // Very old Command
-        const oldCmdText2 = this.add.text(cx, cy - 110, '', { fontFamily: 'monospace', fontSize: 8, color: '#555568' })
+        const oldCmdText2 = this.add.text(cx, cy - 110, '', { fontFamily: 'monospace', fontSize: 8, color: frontColor })
             .setAlpha(0.2)
             .setOrigin(0.5);
 
         // Old Command
-        const oldCmdText = this.add.text(cx, cy - 90, '', { fontFamily: 'monospace', fontSize: 12, color: '#555568' })
+        const oldCmdText = this.add.text(cx, cy - 90, '', { fontFamily: 'monospace', fontSize: 12, color: frontColor })
             .setAlpha(0.4)
             .setOrigin(0.5);
 
         // Active Command
-        const cmdText = this.add.text(cx, cy - 60, '', { fontFamily: 'monospace', fontSize: 18, color: '#555568' })
+        const cmdText = this.add.text(cx, cy - 60, '', { fontFamily: 'monospace', fontSize: 18, color: frontColor })
             .setOrigin(0.5);
 
         // Command tween
@@ -207,7 +207,7 @@ export default class Test extends Phaser.Scene {
 
     drawFlex(g, flex) {
         g.clear();
-        g.lineStyle(2, 0x555568);
+        g.lineStyle(2, xfrontColor);
         g.strokeRect(flex.x - flex.origin.x * flex.width, flex.y - flex.origin.y * flex.height, flex.width, flex.height);
     }
 }
