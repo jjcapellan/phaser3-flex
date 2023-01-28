@@ -43,7 +43,7 @@ export default class Test extends Phaser.Scene {
         const cmdTw = this.tweens.add({
             targets: cmdText,
             alpha: 0.1,
-            duration: 400,
+            duration: 300,
             ease: 'Quad.easeIn',
             yoyo: true,
             paused: true,
@@ -90,6 +90,20 @@ export default class Test extends Phaser.Scene {
             text: 'flex.add(item3)',
             fn: () => {
                 flex.add(item3);
+            }
+        });
+
+        tasks.push({
+            text: 'flex.setX(flex.x + 30).setY(flex.y + 30)',
+            fn: () => {
+                flex.setX(flex.x + 30).setY(flex.y + 30);
+            }
+        });
+
+        tasks.push({
+            text: 'flex.setX(flex.x - 30).setY(flex.y - 30)',
+            fn: () => {
+                flex.setX(flex.x - 30).setY(flex.y - 30);
             }
         });
 

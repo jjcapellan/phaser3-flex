@@ -226,12 +226,16 @@ class Flex {
 
     }
 
-    setX() {
-
+    setX(x) {
+        this.x = x;
+        h.setItems(this);
+        return this;
     }
 
-    setY() {
-
+    setY(y) {
+        this.y = y;
+        h.setItems(this);
+        return this;
     }
 
     setVisible() {
