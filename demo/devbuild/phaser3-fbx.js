@@ -197,7 +197,7 @@
     },
     resetWidths: (f) => {
       for (let i = 0; i < f.items.length; i++) {
-        let item = f.items[i].item;
+        let item = f.items[i];
         h.setItemDisplaySize(item, f._widths[i], item.height);
         item.width = f._widths[i];
       }
@@ -207,9 +207,9 @@
         h.alignCrossStretch(f, "width", h.getLeft(f), "setX");
         return;
       }
-      if ((f.growSum || f.shrinkSum) && f.flexDirection == FlexDirection.ROW) {
+      if ((f._growSum || f._shrinkSum) && f.flexDirection == FlexDirection.ROW) {
         let freeSpace = h.getFreeSpaceH(f);
-        if (!f.fitContent && (f.growSum && freeSpace >= 0 || f.shrinkSum && freeSpace < 0)) {
+        if (!f.fitContent && (f._growSum && freeSpace >= 0 || f._shrinkSum && freeSpace < 0)) {
           h.fillH(f);
           return;
         }
@@ -245,9 +245,9 @@
         h.alignCrossStretch(f, "height", h.getTop(f), "setY");
         return;
       }
-      if ((f.growSum || f.shrinkSum) && f.flexDirection == FlexDirection.COLUMN) {
+      if ((f._growSum || f._shrinkSum) && f.flexDirection == FlexDirection.COLUMN) {
         let freeSpace = h.getFreeSpaceV(f);
-        if (!f.fitContent && (f.growSum && freeSpace >= 0 || f.shrinkSum && freeSpace < 0)) {
+        if (!f.fitContent && (f._growSum && freeSpace >= 0 || f._shrinkSum && freeSpace < 0)) {
           h.fillV();
           return;
         }
@@ -304,13 +304,13 @@
         if (!item.flexGrow) {
           return;
         }
-        height = item.flexGrow / f.growSum * freeSpace + item.height;
+        height = item.flexGrow / f._growSum * freeSpace + item.height;
       }
       if (freeSpace < 0) {
         if (!item.flexShrink) {
           return;
         }
-        height = item.flexShrink / f.shrinkSum * freeSpace + item.height;
+        height = item.flexShrink / f._shrinkSum * freeSpace + item.height;
       }
       h.setItemDisplaySize(item, item.width, height);
       item.height = height;
@@ -324,13 +324,13 @@
         if (!item.flexGrow) {
           return;
         }
-        width = item.flexGrow / f.growSum * freeSpace + item.width;
+        width = item.flexGrow / f._growSum * freeSpace + item.width;
       }
       if (freeSpace < 0) {
         if (!item.flexShrink) {
           return;
         }
-        width = item.flexShrink / f.shrinkSum * freeSpace + item.width;
+        width = item.flexShrink / f._shrinkSum * freeSpace + item.width;
       }
       h.setItemDisplaySize(item, width, item.height);
       item.width = width;

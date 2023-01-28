@@ -24,6 +24,16 @@ export default class Test extends Phaser.Scene {
         // Instructions
         const infoText = this.add.text(cx, 590, 'Click on screen to run command', { fontFamily: 'Roboto', fontSize: 24, color: '#555568' })
             .setOrigin(0.5, 1);
+        
+        // Very old Command
+        const oldCmdText2 = this.add.text(cx, cy - 110, '', { fontFamily: 'monospace', fontSize: 8, color: '#555568' })
+            .setAlpha(0.2)
+            .setOrigin(0.5);
+
+        // Old Command
+        const oldCmdText = this.add.text(cx, cy - 90, '', { fontFamily: 'monospace', fontSize: 12, color: '#555568' })
+            .setAlpha(0.4)
+            .setOrigin(0.5);
 
         // Active Command
         const cmdText = this.add.text(cx, cy - 60, '', { fontFamily: 'monospace', fontSize: 18, color: '#555568' })
@@ -39,6 +49,8 @@ export default class Test extends Phaser.Scene {
             paused: true,
             onYoyo: () => {
                 cmdText.setText(tasks[counter].text);
+                if (counter > 0) oldCmdText.setText(tasks[counter - 1].text);
+                if (counter > 1) oldCmdText2.setText(tasks[counter - 2].text);
             },
             onComplete: () => {
                 ready = true;
