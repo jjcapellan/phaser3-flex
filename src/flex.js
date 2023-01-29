@@ -86,7 +86,14 @@ class Flex {
     }
 
     destroy() {
-
+        let items = this.items;
+        for (let i = 0; i < items.length; i++) {
+            items[i].destroy();
+        }
+        this.items = null;
+        this._widths = null;
+        this._heights = null;
+        this._bounds = null;
     }
 
     setAlignItems(alignItems) {
