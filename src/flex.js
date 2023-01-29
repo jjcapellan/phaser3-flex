@@ -254,8 +254,23 @@ class Flex {
     }
 
     // Items shouldn't move
-    setScrollFactor() {
+    setScrollFactor(x, y) {
+        if (x > 1) {
+            x = 1;
+        }
+        if (x < 0) {
+            x = 0;
+        }
+        if (!y) {
+            y = x;
+        }
+        this._scrollFactorX = x;
+        this._scrollFactorY = y;
+        for (let i = 0; i < this.items.length; i++) {
+            this.items[i].setScrollFactor(x, y);
+        }
 
+        return this;
     }
 
     setX(x) {
