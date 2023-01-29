@@ -141,8 +141,18 @@ class Flex {
         return this;
     }
 
-    setFitContent() {
-
+    setFitContent(fitToContent) {
+        this.fitContent = fitToContent;
+        if (fitToContent) {
+            if (this.flexDirection == FlexDirection.ROW) {
+                let newWidth = h.getItemsWidth(this) + 2 * this.padding;
+                this.setWidth(newWidth);
+            } else {
+                let newHeight = h.getItemsHeight(this) + 2 * this.padding;
+                this.setHeight(newHeight);
+            }
+        }
+        return this;
     }
 
     setHeight(height) {
@@ -251,14 +261,6 @@ class Flex {
         this.y = y;
         h.setItems(this);
         return this;
-    }
-
-    setVisible() {
-
-    }
-
-    _updateBounds() {
-
     }
 }
 
