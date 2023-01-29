@@ -231,6 +231,8 @@ class Flex {
             this.origin.y = 0;
         };
 
+        h.setItems(this);
+
         return this;
     }
 
