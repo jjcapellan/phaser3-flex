@@ -20,6 +20,7 @@ export default class Test extends Phaser.Scene {
         const item1 = this.add.image(300, 50, 'item20x20');
         const item2 = this.add.image(400, 100, 'item20x40');
         const item3 = this.add.image(500, 50, 'item40x20');
+        const item4 = this.add.image(450, 100, 'item20x40');
 
         // Instructions
         const infoText = this.add.text(cx, 590, 'Click on screen to run command', { fontFamily: 'Roboto', fontSize: 24, color: frontColor })
@@ -90,6 +91,20 @@ export default class Test extends Phaser.Scene {
             text: 'flex.add(item3)',
             fn: () => {
                 flex.add(item3);
+            }
+        });
+
+        tasks.push({
+            text: 'flex.remove(flex.items.indexOf(item2), true)',
+            fn: () => {
+                flex.remove(flex.items.indexOf(item2), true);
+            }
+        });
+
+        tasks.push({
+            text: 'flex.add(item4)',
+            fn: () => {
+                flex.add(item4);
             }
         });
 
@@ -182,7 +197,9 @@ export default class Test extends Phaser.Scene {
             fn: () => {
                 flex.setAlignItems(Fbx.AlignItems.CENTER);
             }
-        });
+        });   
+
+
 
         cmdText.setText(tasks[counter].text);
 
