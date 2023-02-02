@@ -197,7 +197,8 @@ export default class Test extends Phaser.Scene {
             fn: () => {
                 flex.setAlignItems(Fbx.AlignItems.CENTER);
             }
-        });   
+        });
+        
 
 
 

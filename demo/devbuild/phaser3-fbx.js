@@ -444,7 +444,19 @@
       h.setItems(this);
       return this;
     }
-    remove() {
+    remove(index, destroy) {
+      if (this.items[index] == void 0) {
+        return;
+      }
+      let item = this.items[index];
+      this.items.splice(index, 1);
+      this._heights.splice(index, 1);
+      this._widths.splice(index, 1);
+      if (destroy) {
+        item.destroy();
+      }
+      h.setItems(this);
+      return this;
     }
     destroy() {
     }
@@ -570,6 +582,7 @@
         this.origin.y = 0;
       }
       ;
+      h.setItems(this);
       return this;
     }
     // Items shouldn't move
