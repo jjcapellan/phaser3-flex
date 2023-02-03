@@ -42,7 +42,7 @@ class Flex {
         item.setScrollFactor(this._scrollFactorX, this._scrollFactorY);
         item.flexGrow = flexGrow;
         item.flexShrink = flexShrink;
-        item.basis = item.width;
+        item.basis = this.flexDirection == FlexDirection.ROW ? item.width : item.height;
         this.items.push(item);
         this._heights.push(item.height);
         this._widths.push(item.width);
