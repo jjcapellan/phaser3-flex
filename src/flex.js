@@ -16,6 +16,7 @@ class Flex {
         this._scrollFactorX = 0;
         this._scrollFactorY = 0;
         this.items = [];
+        this._basisSum = 0;
         this._heights = [];
         this._widths = [];
         this._growSum = 0;
@@ -43,6 +44,7 @@ class Flex {
         item.flexGrow = flexGrow;
         item.flexShrink = flexShrink;
         item.basis = this.flexDirection == FlexDirection.ROW ? item.width : item.height;
+        this._basisSum += item.basis;
         this.items.push(item);
         this._heights.push(item.height);
         this._widths.push(item.width);
@@ -74,6 +76,7 @@ class Flex {
             return;
         }
         let item = this.items[index];
+        this._basisSum -= item.basis;
         this.items.splice(index, 1);
         this._heights.splice(index, 1);
         this._widths.splice(index, 1);
