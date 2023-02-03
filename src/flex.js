@@ -164,6 +164,16 @@ class Flex {
         return this;
     }
 
+    setItemGrow(index, value) {
+        const item = this.items[index];
+        this._growSum -= item.flexGrow;
+        value = Math.max(0, value);
+        item.flexGrow = value;
+        this._growSum += value;
+        h.setItems(this);
+        return this;
+    }
+
     setHeight(height) {
         this.height = height;
         h.updateBounds(this);

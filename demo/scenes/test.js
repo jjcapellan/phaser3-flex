@@ -205,7 +205,28 @@ export default class Test extends Phaser.Scene {
                 flex.setWidth(80);
             }
         });
-        
+
+        tasks.push({
+            text: 'flex.setWidth(600)',
+            fn: () => {
+                flex.setWidth(600);
+            }
+        });
+
+        tasks.push({
+            text: 'flex.setItemGrow(flex.items.indexOf(item1), 1)',
+            fn: () => {
+                flex.setItemGrow(flex.items.indexOf(item1), 1);
+            }
+        });
+
+        tasks.push({
+            text: 'flex.setItemGrow(flex.items.indexOf(item3), 2)',
+            fn: () => {
+                flex.setItemGrow(flex.items.indexOf(item3), 2);
+            }
+        });
+
 
 
 
