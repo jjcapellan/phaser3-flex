@@ -116,7 +116,7 @@ const h = {
         let group = f.items;
         let groupLength = f.items.length;
         h.resetWidths(f);
-        let freeSpace = h.getFreeSpaceH(f);
+        let freeSpace = h.getFreeSpace(f);
 
         let itemX = f._bounds.left;
 
@@ -133,7 +133,7 @@ const h = {
         let group = f.items;
         let groupLength = f.items.length;
         h.resetHeights(f);
-        let freeSpace = h.getFreeSpaceV(f);
+        let freeSpace = h.getFreeSpace(f);
 
         let y = f._bounds.top;
 
@@ -146,12 +146,9 @@ const h = {
         } // End for
     },
 
-    getFreeSpaceH: (f) => {
-        return f.width - h.getItemsSize(f) - 2 * f.padding;
-    },
-
-    getFreeSpaceV: (f) => {
-        return f.height - h.getItemsSize(f) - 2 * f.padding;
+    getFreeSpace: (f) => {
+        const dim = f.flexDirection == FlexDirection.ROW ? f.width : f.height;
+        return dim - h.getItemsSize(f) - 2 * f.padding;
     },
 
     getItemsSize: (f) => {
@@ -197,7 +194,7 @@ const h = {
         }
 
         if ((f._growSum || f._shrinkSum) && f.flexDirection == FlexDirection.ROW) {
-            let freeSpace = h.getFreeSpaceH(f);
+            let freeSpace = h.getFreeSpace(f);
             if (!f.fitContent && ((f._growSum && freeSpace >= 0) || (f._shrinkSum && freeSpace < 0))) {
                 h.fillH(f);
                 return;
@@ -242,7 +239,7 @@ const h = {
         }
 
         if ((f._growSum || f._shrinkSum) && f.flexDirection == FlexDirection.COLUMN) {
-            let freeSpace = h.getFreeSpaceV(f);
+            let freeSpace = h.getFreeSpace(f);
             if (!f.fitContent && ((f._growSum && freeSpace >= 0) || (f._shrinkSum && freeSpace < 0))) {
                 h.fillV();
                 return;
@@ -352,7 +349,7 @@ const h = {
     setJustifyH: (f) => {
         let group = f.items;
         let groupLength = f.items.length;
-        let freeSpace = h.getFreeSpaceH(f);
+        let freeSpace = h.getFreeSpace(f);
         let padding = 0;
         let x = 0;
 
@@ -375,7 +372,7 @@ const h = {
     setJustifyV: (f) => {
         let group = f.items;
         let groupLength = f.items.length;
-        let freeSpace = h.getFreeSpaceV(f);
+        let freeSpace = h.getFreeSpace(f);
         let padding = 0;
         let y = 0;
 
