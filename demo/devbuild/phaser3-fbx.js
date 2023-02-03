@@ -129,11 +129,10 @@
     fillH: (f) => {
       let group = f.items;
       let groupLength = f.items.length;
-      h.resetWidths(f);
-      let freeSpace = h.getFreeSpaceH(f);
+      let freeSpace = h.getFreeSpace(f);
       let itemX = f._bounds.left;
       for (let i = 0; i < groupLength; i++) {
-        h.setItemWidth(f, group[i], freeSpace);
+        h.setItemSize(f, group[i], freeSpace);
         let item = group[i];
         item.setOrigin(0, 0);
         item.setX(itemX);
@@ -143,31 +142,23 @@
     fillV: (f) => {
       let group = f.items;
       let groupLength = f.items.length;
-      h.resetHeights(f);
-      let freeSpace = h.getFreeSpaceV(f);
+      let freeSpace = h.getFreeSpace(f);
       let y = f._bounds.top;
       for (let i = 0; i < groupLength; i++) {
-        h.setItemHeight(f, group[i], freeSpace);
+        h.setItemSize(f, group[i], freeSpace);
         let item = group[i];
         item.setOrigin(0, 0);
         item.setY(y);
         y += item.height + f.itemsMargin;
       }
     },
-    getFreeSpaceH: (f) => {
-      return f.width - h.getItemsSize(f) - 2 * f.padding;
-    },
-    getFreeSpaceV: (f) => {
-      return f.height - h.getItemsSize(f) - 2 * f.padding;
+    getFreeSpace: (f) => {
+      const dim = f.flexDirection == FlexDirection.ROW ? f.width : f.height;
+      return dim - h.getItemsSize(f) - 2 * f.padding;
     },
     getItemsSize: (f) => {
-      let sizesSum = 0;
-      for (let i = 0; i < f.items.length; i++) {
-        let item = f.items[i];
-        sizesSum += item.basis;
-      }
-      let paddingsSum = (f.items.length - 1) * f.itemsMargin;
-      return sizesSum + paddingsSum;
+      const paddingsSum = (f.items.length - 1) * f.itemsMargin;
+      return f._basisSum + paddingsSum;
     },
     getLeft: (f) => {
       return f.x - f.width * f.origin.x;
@@ -195,7 +186,7 @@
         return;
       }
       if ((f._growSum || f._shrinkSum) && f.flexDirection == FlexDirection.ROW) {
-        let freeSpace = h.getFreeSpaceH(f);
+        let freeSpace = h.getFreeSpace(f);
         if (!f.fitContent && (f._growSum && freeSpace >= 0 || f._shrinkSum && freeSpace < 0)) {
           h.fillH(f);
           return;
@@ -233,7 +224,7 @@
         return;
       }
       if ((f._growSum || f._shrinkSum) && f.flexDirection == FlexDirection.COLUMN) {
-        let freeSpace = h.getFreeSpaceV(f);
+        let freeSpace = h.getFreeSpace(f);
         if (!f.fitContent && (f._growSum && freeSpace >= 0 || f._shrinkSum && freeSpace < 0)) {
           h.fillV();
           return;
@@ -282,50 +273,27 @@
       f.setJustifyContent(f.justifyContent);
       f.setAlignItems(f.alignItems);
     },
-    setItemHeight: (f, item, freeSpace) => {
-      if (f.flexDirection == FlexDirection.ROW || !item.flexGrow) {
-        return;
-      }
-      let height = 0;
+    setItemSize: (f, item, freeSpace) => {
+      const isRow = f.flexDirection == FlexDirection.ROW;
+      let dim = isRow ? "width" : "height";
+      let dimValue = 0;
       if (freeSpace >= 0) {
-        if (!item.flexGrow) {
-          return;
-        }
-        height = item.flexGrow / f._growSum * freeSpace + item.height;
+        dimValue = item.flexGrow / f._growSum * freeSpace + item.basis;
       }
       if (freeSpace < 0) {
-        if (!item.flexShrink) {
-          return;
-        }
-        height = item.flexShrink / f._shrinkSum * freeSpace + item.height;
+        dimValue = item.flexShrink / f._shrinkSum * freeSpace + item.basis;
       }
-      h.setItemDisplaySize(item, item.width, height);
-      item.height = height;
-    },
-    setItemWidth: (f, item, freeSpace) => {
-      if (f.flexDirection == FlexDirection.COLUMN || !item.flexGrow) {
-        return;
+      if (isRow) {
+        h.setItemDisplaySize(item, dimValue, item.height);
+      } else {
+        h.setItemDisplaySize(item, item.width, dimValue);
       }
-      let width = 0;
-      if (freeSpace >= 0) {
-        if (!item.flexGrow) {
-          return;
-        }
-        width = item.flexGrow / f._growSum * freeSpace + item.width;
-      }
-      if (freeSpace < 0) {
-        if (!item.flexShrink) {
-          return;
-        }
-        width = item.flexShrink / f._shrinkSum * freeSpace + item.width;
-      }
-      h.setItemDisplaySize(item, width, item.height);
-      item.width = width;
+      item[dim] = dimValue;
     },
     setJustifyH: (f) => {
       let group = f.items;
       let groupLength = f.items.length;
-      let freeSpace = h.getFreeSpaceH(f);
+      let freeSpace = h.getFreeSpace(f);
       let padding = 0;
       let x = 0;
       if (f.justifyContent == JustifyContent.SPACE_AROUND) {
@@ -345,7 +313,7 @@
     setJustifyV: (f) => {
       let group = f.items;
       let groupLength = f.items.length;
-      let freeSpace = h.getFreeSpaceV(f);
+      let freeSpace = h.getFreeSpace(f);
       let padding = 0;
       let y = 0;
       if (f.justifyContent == JustifyContent.SPACE_AROUND) {
@@ -390,6 +358,7 @@
       this._scrollFactorX = 0;
       this._scrollFactorY = 0;
       this.items = [];
+      this._basisSum = 0;
       this._heights = [];
       this._widths = [];
       this._growSum = 0;
@@ -412,6 +381,7 @@
       item.flexGrow = flexGrow;
       item.flexShrink = flexShrink;
       item.basis = this.flexDirection == FlexDirection.ROW ? item.width : item.height;
+      this._basisSum += item.basis;
       this.items.push(item);
       this._heights.push(item.height);
       this._widths.push(item.width);
@@ -437,6 +407,7 @@
         return;
       }
       let item = this.items[index];
+      this._basisSum -= item.basis;
       this.items.splice(index, 1);
       this._heights.splice(index, 1);
       this._widths.splice(index, 1);
