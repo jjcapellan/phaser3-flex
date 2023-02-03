@@ -120,7 +120,7 @@ const h = {
         let itemX = f._bounds.left;
 
         for (let i = 0; i < groupLength; i++) {
-            h.setItemWidth(f, group[i], freeSpace);
+            h.setItemSize(f, group[i], freeSpace);
             let item = group[i];
             item.setOrigin(0, 0);
             item.setX(itemX);
@@ -136,7 +136,7 @@ const h = {
         let y = f._bounds.top;
 
         for (let i = 0; i < groupLength; i++) {
-            h.setItemHeight(f, group[i], freeSpace);
+            h.setItemSize(f, group[i], freeSpace);
             let item = group[i];
             item.setOrigin(0, 0);
             item.setY(y);
@@ -293,55 +293,29 @@ const h = {
         f.setAlignItems(f.alignItems);
     },
 
-    setItemHeight: (f, item, freeSpace) => {
-        if (f.flexDirection == FlexDirection.ROW || !item.flexGrow) {
-            return;
-        }
+    setItemSize: (f, item, freeSpace) => {
 
-        let height = 0;
+        const isRow = f.flexDirection == FlexDirection.ROW; 
+
+        let dim = isRow ? 'width' : 'height';
+
+        let dimValue = 0;
 
         if (freeSpace >= 0) {
-            if (!item.flexGrow) {
-                return;
-            }
-            height = (item.flexGrow / f._growSum) * freeSpace + item.height;
+            dimValue = (item.flexGrow / f._growSum) * freeSpace + item.basis;
         }
 
         if (freeSpace < 0) {
-            if (!item.flexShrink) {
-                return;
-            }
-            height = (item.flexShrink / f._shrinkSum) * freeSpace + item.height;
+            dimValue = (item.flexShrink / f._shrinkSum) * freeSpace + item.basis;
         }
 
-        h.setItemDisplaySize(item, item.width, height);
-        item.height = height;
-    },
-
-    setItemWidth: (f, item, freeSpace) => {
-
-        if (f.flexDirection == FlexDirection.COLUMN || !item.flexGrow) {
-            return;
+        if(isRow) {
+            h.setItemDisplaySize(item, dimValue, item.height);
+        } else {
+            h.setItemDisplaySize(item, item.width, dimValue);
         }
 
-        let width = 0;
-
-        if (freeSpace >= 0) {
-            if (!item.flexGrow) {
-                return;
-            }
-            width = (item.flexGrow / f._growSum) * freeSpace + item.width;
-        }
-
-        if (freeSpace < 0) {
-            if (!item.flexShrink) {
-                return;
-            }
-            width = (item.flexShrink / f._shrinkSum) * freeSpace + item.width;
-        }
-
-        h.setItemDisplaySize(item, width, item.height);
-        item.width = width;
+        item[dim] = dimValue;
     },
 
     setJustifyH: (f) => {
