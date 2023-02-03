@@ -150,13 +150,8 @@ const h = {
     },
 
     getItemsSize: (f) => {
-        let sizesSum = 0;
-        for (let i = 0; i < f.items.length; i++) {
-            let item = f.items[i];
-            sizesSum += item.basis;
-        }
-        let paddingsSum = (f.items.length - 1) * f.itemsMargin;
-        return sizesSum + paddingsSum;
+        const paddingsSum = (f.items.length - 1) * f.itemsMargin;
+        return f._basisSum + paddingsSum;
     },
 
     getLeft: (f) => {
@@ -295,7 +290,7 @@ const h = {
 
     setItemSize: (f, item, freeSpace) => {
 
-        const isRow = f.flexDirection == FlexDirection.ROW; 
+        const isRow = f.flexDirection == FlexDirection.ROW;
 
         let dim = isRow ? 'width' : 'height';
 
@@ -309,7 +304,7 @@ const h = {
             dimValue = (item.flexShrink / f._shrinkSum) * freeSpace + item.basis;
         }
 
-        if(isRow) {
+        if (isRow) {
             h.setItemDisplaySize(item, dimValue, item.height);
         } else {
             h.setItemDisplaySize(item, item.width, dimValue);
