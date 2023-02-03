@@ -176,12 +176,14 @@ class Flex {
 
     setHeight(height) {
         this.height = height;
+        h.resetHeights(this);
         h.setItems(this);
         return this;
     }
 
     setWidth(width) {
         this.width = width;
+        h.resetWidths(this);
         h.setItems(this);
         return this;
     }
