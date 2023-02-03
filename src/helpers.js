@@ -65,7 +65,7 @@ const h = {
      * Sets main axis center alignment
      * @param {object} f Flex object.
      * @param {string} dim Dimension: 'width' if row dir. and 'height' if column dir.
-     * @param {number} itemsSize getItemsWidth() if row dir and getItemsHeight() if column dir.  
+     * @param {number} itemsSize getItemsSize() if row dir and getItemsSize() if column dir.  
      * @param {number} bound getLeft() if row and getTop() if column
      * @param {string} setXY UiElement property to set x or y. 'setX' if row, 'setY' if column
      */
@@ -147,35 +147,21 @@ const h = {
     },
 
     getFreeSpaceH: (f) => {
-        return f.width - h.getItemsWidth(f) - 2 * f.padding;
+        return f.width - h.getItemsSize(f) - 2 * f.padding;
     },
 
     getFreeSpaceV: (f) => {
-        return f.height - h.getItemsHeight(f) - 2 * f.padding;
+        return f.height - h.getItemsSize(f) - 2 * f.padding;
     },
 
-    getItemsWidth: (f) => {
-        let group = f.items;
-        let groupLength = f.items.length;
-        let widthsSum = 0;
-        for (let i = 0; i < groupLength; i++) {
-            let item = group[i];
-            widthsSum += item.basis;
+    getItemsSize: (f) => {
+        let sizesSum = 0;
+        for (let i = 0; i < f.items.length; i++) {
+            let item = f.items[i];
+            sizesSum += item.basis;
         }
-        let paddingsSum = (groupLength - 1) * f.itemsMargin;
-        return widthsSum + paddingsSum;
-    },
-
-    getItemsHeight: (f) => {
-        let group = f.items;
-        let groupLength = f.items.length;
-        let heightsSum = 0;
-        for (let i = 0; i < groupLength; i++) {
-            let item = group[i];
-            heightsSum += item.height;
-        }
-        let paddingsSum = (groupLength - 1) * f.itemsMargin;
-        return heightsSum + paddingsSum;
+        let paddingsSum = (f.items.length - 1) * f.itemsMargin;
+        return sizesSum + paddingsSum;
     },
 
     getLeft: (f) => {
@@ -238,7 +224,7 @@ const h = {
 
         if (alignment == Alignment.CENTER) {
             if (f.flexDirection == FlexDirection.ROW) {
-                h.alignMainCenter(f, 'width', h.getItemsWidth(f), h.getLeft(f), 'setX');
+                h.alignMainCenter(f, 'width', h.getItemsSize(f), h.getLeft(f), 'setX');
             } else {
                 h.alignCrossCenter(f, 'width', h.getLeft(f), 'setX');
             }
@@ -283,7 +269,7 @@ const h = {
 
         if (alignment == Alignment.CENTER) {
             if (f.flexDirection == FlexDirection.COLUMN) {
-                h.alignMainCenter(f, 'height', h.getItemsHeight(f), h.getTop(f), 'setY');
+                h.alignMainCenter(f, 'height', h.getItemsSize(f), h.getTop(f), 'setY');
             } else {
                 h.alignCrossCenter(f, 'height', h.getTop(f), 'setY');
             }

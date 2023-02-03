@@ -52,14 +52,14 @@ class Flex {
         if (this.flexDirection == FlexDirection.ROW) {
             h.checkHeight(this, item.height);
             if (this.fitContent) {
-                h.checkWidth(this, h.getItemsWidth(this));
+                h.checkWidth(this, h.getItemsSize(this));
             }
         }
 
         if (this.flexDirection == FlexDirection.COLUMN) {
             h.checkWidth(this, item.width);
             if (this.fitContent) {
-                h.checkHeight(this, h.getItemsHeight(this));
+                h.checkHeight(this, h.getItemsSize(this));
             }
         }
 
@@ -153,10 +153,10 @@ class Flex {
         this.fitContent = fitToContent;
         if (fitToContent) {
             if (this.flexDirection == FlexDirection.ROW) {
-                let newWidth = h.getItemsWidth(this) + 2 * this.padding;
+                let newWidth = h.getItemsSize(this) + 2 * this.padding;
                 this.setWidth(newWidth);
             } else {
-                let newHeight = h.getItemsHeight(this) + 2 * this.padding;
+                let newHeight = h.getItemsSize(this) + 2 * this.padding;
                 this.setHeight(newHeight);
             }
         }

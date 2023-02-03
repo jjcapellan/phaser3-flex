@@ -85,7 +85,7 @@
      * Sets main axis center alignment
      * @param {object} f Flex object.
      * @param {string} dim Dimension: 'width' if row dir. and 'height' if column dir.
-     * @param {number} itemsSize getItemsWidth() if row dir and getItemsHeight() if column dir.  
+     * @param {number} itemsSize getItemsSize() if row dir and getItemsSize() if column dir.  
      * @param {number} bound getLeft() if row and getTop() if column
      * @param {string} setXY UiElement property to set x or y. 'setX' if row, 'setY' if column
      */
@@ -155,32 +155,19 @@
       }
     },
     getFreeSpaceH: (f) => {
-      return f.width - h.getItemsWidth(f) - 2 * f.padding;
+      return f.width - h.getItemsSize(f) - 2 * f.padding;
     },
     getFreeSpaceV: (f) => {
-      return f.height - h.getItemsHeight(f) - 2 * f.padding;
+      return f.height - h.getItemsSize(f) - 2 * f.padding;
     },
-    getItemsWidth: (f) => {
-      let group = f.items;
-      let groupLength = f.items.length;
-      let widthsSum = 0;
-      for (let i = 0; i < groupLength; i++) {
-        let item = group[i];
-        widthsSum += item.width;
+    getItemsSize: (f) => {
+      let sizesSum = 0;
+      for (let i = 0; i < f.items.length; i++) {
+        let item = f.items[i];
+        sizesSum += item.basis;
       }
-      let paddingsSum = (groupLength - 1) * f.itemsMargin;
-      return widthsSum + paddingsSum;
-    },
-    getItemsHeight: (f) => {
-      let group = f.items;
-      let groupLength = f.items.length;
-      let heightsSum = 0;
-      for (let i = 0; i < groupLength; i++) {
-        let item = group[i];
-        heightsSum += item.height;
-      }
-      let paddingsSum = (groupLength - 1) * f.itemsMargin;
-      return heightsSum + paddingsSum;
+      let paddingsSum = (f.items.length - 1) * f.itemsMargin;
+      return sizesSum + paddingsSum;
     },
     getLeft: (f) => {
       return f.x - f.width * f.origin.x;
@@ -232,7 +219,7 @@
       }
       if (alignment == Alignment.CENTER) {
         if (f.flexDirection == FlexDirection.ROW) {
-          h.alignMainCenter(f, "width", h.getItemsWidth(f), h.getLeft(f), "setX");
+          h.alignMainCenter(f, "width", h.getItemsSize(f), h.getLeft(f), "setX");
         } else {
           h.alignCrossCenter(f, "width", h.getLeft(f), "setX");
         }
@@ -270,7 +257,7 @@
       }
       if (alignment == Alignment.CENTER) {
         if (f.flexDirection == FlexDirection.COLUMN) {
-          h.alignMainCenter(f, "height", h.getItemsHeight(f), h.getTop(f), "setY");
+          h.alignMainCenter(f, "height", h.getItemsSize(f), h.getTop(f), "setY");
         } else {
           h.alignCrossCenter(f, "height", h.getTop(f), "setY");
         }
@@ -424,6 +411,7 @@
       item.setScrollFactor(this._scrollFactorX, this._scrollFactorY);
       item.flexGrow = flexGrow;
       item.flexShrink = flexShrink;
+      item.basis = this.flexDirection == FlexDirection.ROW ? item.width : item.height;
       this.items.push(item);
       this._heights.push(item.height);
       this._widths.push(item.width);
@@ -432,13 +420,13 @@
       if (this.flexDirection == FlexDirection.ROW) {
         h.checkHeight(this, item.height);
         if (this.fitContent) {
-          h.checkWidth(this, h.getItemsWidth(this));
+          h.checkWidth(this, h.getItemsSize(this));
         }
       }
       if (this.flexDirection == FlexDirection.COLUMN) {
         h.checkWidth(this, item.width);
         if (this.fitContent) {
-          h.checkHeight(this, h.getItemsHeight(this));
+          h.checkHeight(this, h.getItemsSize(this));
         }
       }
       h.setItems(this);
@@ -459,6 +447,14 @@
       return this;
     }
     destroy() {
+      let items = this.items;
+      for (let i = 0; i < items.length; i++) {
+        items[i].destroy();
+      }
+      this.items = null;
+      this._widths = null;
+      this._heights = null;
+      this._bounds = null;
     }
     setAlignItems(alignItems) {
       if (this.alignItems == AlignItems.STRETCH && alignItems != AlignItems.STRETCH) {
@@ -503,7 +499,18 @@
       }
       return this;
     }
-    setFitContent() {
+    setFitContent(fitToContent) {
+      this.fitContent = fitToContent;
+      if (fitToContent) {
+        if (this.flexDirection == FlexDirection.ROW) {
+          let newWidth = h.getItemsSize(this) + 2 * this.padding;
+          this.setWidth(newWidth);
+        } else {
+          let newHeight = h.getItemsSize(this) + 2 * this.padding;
+          this.setHeight(newHeight);
+        }
+      }
+      return this;
     }
     setHeight(height) {
       this.height = height;
@@ -586,7 +593,22 @@
       return this;
     }
     // Items shouldn't move
-    setScrollFactor() {
+    setScrollFactor(x, y) {
+      if (x > 1) {
+        x = 1;
+      }
+      if (x < 0) {
+        x = 0;
+      }
+      if (!y) {
+        y = x;
+      }
+      this._scrollFactorX = x;
+      this._scrollFactorY = y;
+      for (let i = 0; i < this.items.length; i++) {
+        this.items[i].setScrollFactor(x, y);
+      }
+      return this;
     }
     setX(x) {
       this.x = x;
@@ -597,10 +619,6 @@
       this.y = y;
       h.setItems(this);
       return this;
-    }
-    setVisible() {
-    }
-    _updateBounds() {
     }
   };
 
