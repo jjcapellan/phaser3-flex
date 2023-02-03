@@ -186,9 +186,9 @@ const h = {
             return;
         }
 
-        if ((f._growSum || f._shrinkSum) && f.flexDirection == FlexDirection.ROW) {
+        if (f.flexDirection == FlexDirection.ROW) {
             let freeSpace = h.getFreeSpace(f);
-            if (!f.fitContent && ((f._growSum && freeSpace >= 0) || (f._shrinkSum && freeSpace < 0))) {
+            if (!f.fitContent && ((f._growSum && freeSpace >= 0) || freeSpace < 0)) {
                 h.fillH(f);
                 return;
             }
@@ -231,9 +231,9 @@ const h = {
             return;
         }
 
-        if ((f._growSum || f._shrinkSum) && f.flexDirection == FlexDirection.COLUMN) {
+        if (f.flexDirection == FlexDirection.COLUMN) {
             let freeSpace = h.getFreeSpace(f);
-            if (!f.fitContent && ((f._growSum && freeSpace >= 0) || (f._shrinkSum && freeSpace < 0))) {
+            if (!f.fitContent && ((f._growSum && freeSpace >= 0) || freeSpace < 0)) {
                 h.fillV();
                 return;
             }
@@ -301,7 +301,7 @@ const h = {
         }
 
         if (freeSpace < 0) {
-            dimValue = (item.flexShrink / f._shrinkSum) * freeSpace + item.basis;
+            dimValue = ((item.flexShrink*item.basis) / f._basisSum) * freeSpace + item.basis;
         }
 
         if (isRow) {

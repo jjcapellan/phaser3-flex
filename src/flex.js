@@ -20,7 +20,6 @@ class Flex {
         this._heights = [];
         this._widths = [];
         this._growSum = 0;
-        this._shrinkSum = 0;
         this._bounds = {};
 
         if ((this.flexDirection == FlexDirection.ROW && !this.width) ||
@@ -38,7 +37,7 @@ class Flex {
      * @param {number} flexGrow 
      * @param {number} flexShrink 
      */
-    add(item, flexGrow = 0, flexShrink = 0) {
+    add(item, flexGrow = 0, flexShrink = 1) {
         item.setOrigin(0, 0);
         item.setScrollFactor(this._scrollFactorX, this._scrollFactorY);
         item.flexGrow = flexGrow;
@@ -49,7 +48,6 @@ class Flex {
         this._heights.push(item.height);
         this._widths.push(item.width);
         this._growSum += item.flexGrow;
-        this._shrinkSum += item.flexShrink;
 
         if (this.flexDirection == FlexDirection.ROW) {
             h.checkHeight(this, item.height);
