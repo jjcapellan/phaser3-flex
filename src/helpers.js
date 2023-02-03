@@ -115,7 +115,6 @@ const h = {
     fillH: (f) => {
         let group = f.items;
         let groupLength = f.items.length;
-        h.resetWidths(f);
         let freeSpace = h.getFreeSpace(f);
 
         let itemX = f._bounds.left;
@@ -132,7 +131,6 @@ const h = {
     fillV: (f) => {
         let group = f.items;
         let groupLength = f.items.length;
-        h.resetHeights(f);
         let freeSpace = h.getFreeSpace(f);
 
         let y = f._bounds.top;
