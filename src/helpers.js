@@ -160,7 +160,7 @@ const h = {
         let widthsSum = 0;
         for (let i = 0; i < groupLength; i++) {
             let item = group[i];
-            widthsSum += item.width;
+            widthsSum += item.basis;
         }
         let paddingsSum = (groupLength - 1) * f.itemsMargin;
         return widthsSum + paddingsSum;
