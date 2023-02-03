@@ -185,9 +185,9 @@
         h.alignCrossStretch(f, "width", h.getLeft(f), "setX");
         return;
       }
-      if ((f._growSum || f._shrinkSum) && f.flexDirection == FlexDirection.ROW) {
+      if (f.flexDirection == FlexDirection.ROW) {
         let freeSpace = h.getFreeSpace(f);
-        if (!f.fitContent && (f._growSum && freeSpace >= 0 || f._shrinkSum && freeSpace < 0)) {
+        if (!f.fitContent && (f._growSum && freeSpace >= 0 || freeSpace < 0)) {
           h.fillH(f);
           return;
         }
@@ -223,9 +223,9 @@
         h.alignCrossStretch(f, "height", h.getTop(f), "setY");
         return;
       }
-      if ((f._growSum || f._shrinkSum) && f.flexDirection == FlexDirection.COLUMN) {
+      if (f.flexDirection == FlexDirection.COLUMN) {
         let freeSpace = h.getFreeSpace(f);
-        if (!f.fitContent && (f._growSum && freeSpace >= 0 || f._shrinkSum && freeSpace < 0)) {
+        if (!f.fitContent && (f._growSum && freeSpace >= 0 || freeSpace < 0)) {
           h.fillV();
           return;
         }
@@ -281,7 +281,7 @@
         dimValue = item.flexGrow / f._growSum * freeSpace + item.basis;
       }
       if (freeSpace < 0) {
-        dimValue = item.flexShrink / f._shrinkSum * freeSpace + item.basis;
+        dimValue = item.flexShrink * item.basis / f._basisSum * freeSpace + item.basis;
       }
       if (isRow) {
         h.setItemDisplaySize(item, dimValue, item.height);
@@ -362,7 +362,6 @@
       this._heights = [];
       this._widths = [];
       this._growSum = 0;
-      this._shrinkSum = 0;
       this._bounds = {};
       if (this.flexDirection == FlexDirection.ROW && !this.width || this.flexDirection == FlexDirection.COLUMN && !this.height) {
         this.fitContent = true;
@@ -375,7 +374,7 @@
      * @param {number} flexGrow 
      * @param {number} flexShrink 
      */
-    add(item, flexGrow = 0, flexShrink = 0) {
+    add(item, flexGrow = 0, flexShrink = 1) {
       item.setOrigin(0, 0);
       item.setScrollFactor(this._scrollFactorX, this._scrollFactorY);
       item.flexGrow = flexGrow;
@@ -386,7 +385,6 @@
       this._heights.push(item.height);
       this._widths.push(item.width);
       this._growSum += item.flexGrow;
-      this._shrinkSum += item.flexShrink;
       if (this.flexDirection == FlexDirection.ROW) {
         h.checkHeight(this, item.height);
         if (this.fitContent) {

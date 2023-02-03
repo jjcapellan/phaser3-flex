@@ -198,6 +198,13 @@ export default class Test extends Phaser.Scene {
                 flex.setAlignItems(Fbx.AlignItems.CENTER);
             }
         });
+
+        tasks.push({
+            text: 'flex.setWidth(80)',
+            fn: () => {
+                flex.setWidth(80);
+            }
+        });
         
 
 
