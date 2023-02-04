@@ -145,13 +145,13 @@ const h = {
     },
 
     fitHeight: (f) => {
-        const max = Math.max(...f._heights);
+        const max = f._heights.length ? Math.max(...f._heights) : 0;
         f.height = max + 2 * f.padding;
         h.updateBounds(f);
     },
 
     fitWidth: (f) => {
-        const max = Math.max(...f._widths);
+        const max = f._widths.length ? Math.max(...f._widths) : 0;
         f.width = max + 2 * f.padding;
         h.updateBounds(f);
     },

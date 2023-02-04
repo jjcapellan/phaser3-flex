@@ -69,6 +69,13 @@ class Flex {
 
     }
 
+    clear(destroy) {
+        for (let i = this.items.length - 1; i >= 0; i--) {
+            this.remove(i, destroy);
+        }
+        return this;
+    }
+
     remove(index, destroy) {
         if (this.items[index] == undefined) {
             return;
