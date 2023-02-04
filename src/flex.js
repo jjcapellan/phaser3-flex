@@ -16,6 +16,7 @@ class Flex {
         this._scrollFactorX = 0;
         this._scrollFactorY = 0;
         this.items = [];
+        this._isFlex = true;
         this._basisSum = 0;
         this._heights = [];
         this._widths = [];
@@ -40,8 +41,15 @@ class Flex {
     add(item, flexGrow = 0, flexShrink = 1) {
         item.setOrigin(0, 0);
         item.setScrollFactor(this._scrollFactorX, this._scrollFactorY);
-        item.flexGrow = flexGrow;
-        item.flexShrink = flexShrink;
+
+        if (item._isFlex) {
+            item.flexGrow = flexGrow;
+            item.flexShrink = flexShrink;
+        } else {
+            item.flexGrow = 0;
+            item.flexShrink = 0;
+        }
+
         item.basis = this.flexDirection == FlexDirection.ROW ? item.width : item.height;
         this._basisSum += item.basis;
         this.items.push(item);
@@ -100,6 +108,11 @@ class Flex {
 
         h.setItems(this);
         return this;
+    }
+
+    setDisplaySize(width, height) {
+        this.setWidth(width);
+        this.setHeight(height);
     }
 
     destroy() {

@@ -28,6 +28,12 @@ const h = {
 
         for (let i = 0; i < items.length; i++) {
             let item = items[i];
+            if (!item.isFlex) {
+                let center = f[dim] / 2 + bound;
+                item.setOrigin(0, 0);
+                xy = center - item[dim] / 2;
+            }
+
             if (item.fitContent && f.flexDirection != item.flexDirection) {
                 item.fitContent = false;
             }
@@ -39,6 +45,7 @@ const h = {
 
         for (let i = 0; i < items.length; i++) {
             let item = items[i];
+            if(!item.isFlex) continue;
             if (dim == 'width') {
                 h.setItemDisplaySize(item, maxSize, item.height);
                 continue;
