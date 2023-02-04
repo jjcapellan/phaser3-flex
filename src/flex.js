@@ -83,6 +83,14 @@ class Flex {
             item.destroy();
         }
 
+        if (this.flexDirection == FlexDirection.ROW) {
+            h.fitHeight(this);
+        }
+
+        if (this.flexDirection == FlexDirection.COLUMN) {
+            h.fitWidth(this);
+        }
+
         h.setItems(this);
         return this;
     }

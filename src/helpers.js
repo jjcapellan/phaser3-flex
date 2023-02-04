@@ -144,6 +144,18 @@ const h = {
         } // End for
     },
 
+    fitHeight: (f) => {
+        const max = Math.max(...f._heights);
+        f.height = max + 2 * f.padding;
+        h.updateBounds(f);
+    },
+
+    fitWidth: (f) => {
+        const max = Math.max(...f._widths);
+        f.width = max + 2 * f.padding;
+        h.updateBounds(f);
+    },
+
     getFreeSpace: (f) => {
         const dim = f.flexDirection == FlexDirection.ROW ? f.width : f.height;
         return dim - h.getItemsSize(f) - 2 * f.padding;
@@ -301,7 +313,7 @@ const h = {
         }
 
         if (freeSpace < 0) {
-            dimValue = ((item.flexShrink*item.basis) / f._basisSum) * freeSpace + item.basis;
+            dimValue = ((item.flexShrink * item.basis) / f._basisSum) * freeSpace + item.basis;
         }
 
         if (isRow) {
