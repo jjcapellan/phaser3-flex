@@ -15,6 +15,7 @@ class Flex {
         this.origin = { x: 0, y: 0 };
         this._scrollFactorX = 0;
         this._scrollFactorY = 0;
+        this._fparent = null;
         this.items = [];
         this._isFlex = true;
         this._basisSum = 0;
@@ -45,6 +46,7 @@ class Flex {
         if (item._isFlex) {
             item.flexGrow = flexGrow;
             item.flexShrink = flexShrink;
+            item._fparent = this;
         } else {
             item.flexGrow = 0;
             item.flexShrink = 0;
@@ -72,6 +74,9 @@ class Flex {
         }
 
         h.setItems(this);
+
+        // This line forces items update in parent
+        if (this._fparent) this._fparent.setX(this._fparent.x);
 
         return this;
 
