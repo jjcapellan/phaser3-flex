@@ -45,7 +45,7 @@ const h = {
 
         for (let i = 0; i < items.length; i++) {
             let item = items[i];
-            if(!item._isFlex && item.type != 'Text') continue;
+            if (!item._isFlex && item.type != 'Text') continue;
             if (dim == 'width') {
                 h.setItemDisplaySize(item, maxSize, item.height);
                 continue;
@@ -155,6 +155,13 @@ const h = {
         const max = f._heights.length ? Math.max(...f._heights) : 0;
         f.height = max + 2 * f.padding;
         h.updateBounds(f);
+    },
+
+    fitTextToColumn: (f, item) => {
+        let w = f.width - f.padding * 2;
+        item.setWordWrapWidth(w);
+        let b = item.getBounds();
+        item.setFixedSize(w, b.height);
     },
 
     fitWidth: (f) => {

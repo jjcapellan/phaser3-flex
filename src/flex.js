@@ -52,6 +52,10 @@ class Flex {
             item.flexShrink = 0;
         }
 
+        if (this.width && item.type == 'Text' && this.flexDirection == FlexDirection.COLUMN) {
+            h.fitTextToColumn(this, item);
+        }
+
         item.basis = this.flexDirection == FlexDirection.ROW ? item.width : item.height;
         this._basisSum += item.basis;
         this.items.push(item);
@@ -216,6 +220,14 @@ class Flex {
     setWidth(width) {
         this.width = width;
         h.resetWidths(this);
+        if (this.flexDirection == FlexDirection.COLUMN) {
+            for (let i = 0; i < this.items.length; i++) {
+                let item = this.items[i];
+                if (item.type == 'Text') {
+                    h.fitTextToColumn(this, item);
+                }
+            }
+        }
         h.setItems(this);
         return this;
     }
