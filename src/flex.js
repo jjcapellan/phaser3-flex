@@ -82,10 +82,18 @@ class Flex {
 
     }
 
-    clear(destroy) {
-        for (let i = this.items.length - 1; i >= 0; i--) {
-            this.remove(i, destroy);
-        }
+    clear() {
+        this.items.forEach(item => {
+            if (item._isFlex) {
+                item.clear(true);
+            }
+        });
+        this.items.forEach(item => item.destroy());
+        this.items = [];
+        this._heights = [];
+        this._widths = [];
+        this._basisSum = 0;
+
         return this;
     }
 
@@ -94,6 +102,7 @@ class Flex {
             return;
         }
         let item = this.items[index];
+        item._fparent = null;
         this._basisSum -= item.basis;
         this.items.splice(index, 1);
         this._heights.splice(index, 1);
@@ -121,12 +130,14 @@ class Flex {
     }
 
     destroy() {
-        this.clear();
+        this.clear(true);
         this.items = null;
         this._widths = null;
         this._heights = null;
         this._bounds = null;
         this.origin = null;
+        this._fparent = null;
+        this.destroyed = true;
     }
 
     setAlignItems(alignItems) {
