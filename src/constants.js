@@ -1,28 +1,28 @@
 const Alignment = {
-    BOTTOM: 0,
-    CENTER: 1,
-    JUSTIFY: 2,
-    LEFT: 3,
-    RIGHT: 4,
-    STRETCH: 5,
-    TOP: 6
+    BOTTOM: 1,
+    CENTER: 2,
+    JUSTIFY: 3,
+    LEFT: 4,
+    RIGHT: 5,
+    STRETCH: 6,
+    TOP: 7
 };
 const AlignItems = {
-    CENTER: 0,
-    FLEX_END: 1,
-    FLEX_START: 2,
-    STRETCH: 3
+    CENTER: 1,
+    FLEX_END: 2,
+    FLEX_START: 3,
+    STRETCH: 4
 };
 const FlexDirection = {
-    COLUMN: 0,
-    ROW: 1
+    COLUMN: 1,
+    ROW: 2
 };
 const JustifyContent = {
-    CENTER: 0,
-    FLEX_END: 1,
-    FLEX_START: 2,
-    SPACE_AROUND: 3,
-    SPACE_BETWEEN: 4
+    CENTER: 1,
+    FLEX_END: 2,
+    FLEX_START: 3,
+    SPACE_AROUND: 4,
+    SPACE_BETWEEN: 5
 };
 
 export { Alignment ,AlignItems, FlexDirection, JustifyContent };
