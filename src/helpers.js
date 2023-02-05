@@ -28,7 +28,7 @@ const h = {
 
         for (let i = 0; i < items.length; i++) {
             let item = items[i];
-            if (!item.isFlex && item.type != 'Text') {
+            if (!item._isFlex && item.type != 'Text') {
                 let center = f[dim] / 2 + bound;
                 item.setOrigin(0, 0);
                 xy = center - item[dim] / 2;
@@ -45,7 +45,7 @@ const h = {
 
         for (let i = 0; i < items.length; i++) {
             let item = items[i];
-            if(!item.isFlex && item.type != 'Text') continue;
+            if(!item._isFlex && item.type != 'Text') continue;
             if (dim == 'width') {
                 h.setItemDisplaySize(item, maxSize, item.height);
                 continue;
