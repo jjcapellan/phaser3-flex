@@ -1,7 +1,7 @@
-import { Flex } from './flex.js';
-import { AlignItems, FlexDirection, JustifyContent } from './constants.js';
+import { Flex } from "./flex.js";
+import { AlignItems, FlexDirection, JustifyContent } from "./constants.js";
 
-if (typeof window != 'undefined') {
+if (typeof window != "undefined") {
     globalThis.Fbx = {
         Flex: Flex,
         AlignItems: AlignItems,

@@ -3,7 +3,7 @@ import {
     AlignItems,
     FlexDirection,
     JustifyContent
-} from './constants.js';
+} from "./constants.js";
 
 import {
     checkHeight,
@@ -17,9 +17,8 @@ import {
     setAlignH,
     setAlignV,
     setItems,
-    setJustifyH,
-    setJustifyV
-} from './helpers.js';
+    setJustify
+} from "./helpers.js";
 
 class Flex {
     constructor(config) {
@@ -73,7 +72,7 @@ class Flex {
             item.flexShrink = 0;
         }
 
-        if (this.width && item.type == 'Text' && this.flexDirection == FlexDirection.COLUMN) {
+        if (this.width && item.type == "Text" && this.flexDirection == FlexDirection.COLUMN) {
             fitTextToColumn(this, item);
         }
 
@@ -244,7 +243,7 @@ class Flex {
         if (this.flexDirection == FlexDirection.COLUMN) {
             for (let i = 0; i < this.items.length; i++) {
                 let item = this.items[i];
-                if (item.type == 'Text') {
+                if (item.type == "Text") {
                     fitTextToColumn(this, item);
                 }
             }
@@ -282,19 +281,11 @@ class Flex {
                 break;
 
             case JustifyContent.SPACE_AROUND:
-                if (this.flexDirection == FlexDirection.ROW) {
-                    setJustifyH(this);
-                } else {
-                    setJustifyV(this);
-                }
+                setJustify(this);
                 break;
 
             case JustifyContent.SPACE_BETWEEN:
-                if (this.flexDirection == FlexDirection.ROW) {
-                    setJustifyH(this);
-                } else {
-                    setJustifyV(this);
-                }
+                setJustify(this);
                 break;
 
             default:
@@ -330,7 +321,7 @@ class Flex {
         return this;
     }
 
-    // Items shouldn't move
+    // Items shouldn"t move
     setScrollFactor(x, y) {
         if (x > 1) {
             x = 1;
