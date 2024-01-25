@@ -118,9 +118,23 @@ export default class Demo extends Phaser.Scene {
         });
 
         tasks.push({
+            text: 'flex2.setJustifyContent(Fbx.JustifyContent.SPACE_BETWEEN)',
+            fn: () => {
+                flex2.setJustifyContent(Fbx.JustifyContent.SPACE_BETWEEN);
+            }
+        });
+
+        tasks.push({
             text: 'flex3.setJustifyContent(Fbx.JustifyContent.FLEX_END)',
             fn: () => {
                 flex3.setJustifyContent(Fbx.JustifyContent.FLEX_END);
+            }
+        });
+
+        tasks.push({
+            text: 'flex3.setAlignItems(Fbx.AlignItems.STRETCH)',
+            fn: () => {
+                flex3.setAlignItems(Fbx.AlignItems.STRETCH);
             }
         });
 
