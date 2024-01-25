@@ -7,7 +7,6 @@
   "scripts": {
     "build": "node ./scripts/build.js",
     "build:dev": "node ./scripts/build_dev.js",
-    "build:demo": "node ./scripts/build_demo.js",
     "test": "node ./test/test.js"
   },
   "keywords": [

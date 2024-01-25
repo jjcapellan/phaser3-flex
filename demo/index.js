@@ -1,4 +1,3 @@
-import Phaser from 'phaser';
 import Load from './scenes/load.js';
 import Demo from './scenes/demo.js';
 
