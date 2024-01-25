@@ -1,10 +1,22 @@
 import esbuild from 'esbuild';
 
-esbuild.buildSync(
-    {
-        entryPoints: ['src/index.js'],
-        bundle: true,
-        minify: true,
-        outfile: 'dist/phaser3-fbx.js'
-    }
-);
+await esbuild.build({
+    entryPoints: [
+        { out: "flex", in: "src/index.js" }
+    ],
+    bundle: true,
+    platform:"neutral",
+    define: { IS_DEV: "false" },
+    outdir: "dist",
+});
+
+await esbuild.build({
+    entryPoints: [
+        { out: "flex.min", in: "src/index.js" }
+    ],
+    bundle: true,
+    format: "iife",
+    minify: true,
+    define: { IS_DEV: "false" },
+    outdir: "dist",
+});

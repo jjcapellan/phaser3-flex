@@ -2,11 +2,12 @@
   "name": "phaser3-fbx",
   "version": "0.1.0",
   "description": "",
-  "main": "src/index.js",
+  "module": "dist/flex.js",
+  "browser": "dist/flex.min.js",
   "type": "module",
   "scripts": {
     "build": "node ./scripts/build.js",
-    "build:dev": "node ./scripts/build_dev.js",
+    "dev": "node ./scripts/dev.js",
     "test": "node ./test/test.js"
   },
   "keywords": [
