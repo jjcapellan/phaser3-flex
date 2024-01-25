@@ -31,11 +31,8 @@ function alignCrossStretch(f, dim) {
 
     f.items.forEach(item => {
         if (!item._isFlex && item.type != "Text") {
-            let center = f[dim] / 2 + bound;
             item.setOrigin(0, 0);
-            position = center - item[dim] / 2;
         }
-
         if (item.fitContent && f.flexDirection != item.flexDirection) {
             item.fitContent = false;
         }
@@ -44,9 +41,9 @@ function alignCrossStretch(f, dim) {
             maxSize = item[dim];
         }
     });
-
+    // TO DO : support for flex object
     f.items.forEach(item => {
-        if (!item._isFlex && item.type != "Text") return;
+        if (item._isFlex || item.type == "Text") return;
         const size = dim == "width" ? [maxSize, item.height] : [item.width, maxSize];
         setItemDisplaySize(item, ...size);
     });
