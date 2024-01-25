@@ -1,5 +1,26 @@
-import { Alignment, AlignItems, FlexDirection, JustifyContent } from './constants.js';
-import { h } from './helpers.js';
+import {
+    Alignment,
+    AlignItems,
+    FlexDirection,
+    JustifyContent
+} from './constants.js';
+
+import {
+    checkHeight,
+    checkWidth,
+    fitHeight,
+    fitTextToColumn,
+    fitWidth,
+    getItemsSize,
+    resetHeights,
+    resetWidths,
+    setAlignH,
+    setAlignV,
+    setItems,
+    setJustifyH,
+    setJustifyV
+} from './helpers.js';
+
 class Flex {
     constructor(config) {
         this.x = config.x || 0;
@@ -53,7 +74,7 @@ class Flex {
         }
 
         if (this.width && item.type == 'Text' && this.flexDirection == FlexDirection.COLUMN) {
-            h.fitTextToColumn(this, item);
+            fitTextToColumn(this, item);
         }
 
         item.basis = this.flexDirection == FlexDirection.ROW ? item.width : item.height;
@@ -64,20 +85,20 @@ class Flex {
         this._growSum += item.flexGrow;
 
         if (this.flexDirection == FlexDirection.ROW) {
-            h.checkHeight(this, item.height);
+            checkHeight(this, item.height);
             if (this.fitContent) {
-                h.checkWidth(this, h.getItemsSize(this));
+                checkWidth(this, getItemsSize(this));
             }
         }
 
         if (this.flexDirection == FlexDirection.COLUMN) {
-            h.checkWidth(this, item.width);
+            checkWidth(this, item.width);
             if (this.fitContent) {
-                h.checkHeight(this, h.getItemsSize(this));
+                checkHeight(this, getItemsSize(this));
             }
         }
 
-        h.setItems(this);
+        setItems(this);
 
         // This line forces items update in parent
         if (this._fparent) this._fparent.setX(this._fparent.x);
@@ -117,14 +138,14 @@ class Flex {
         }
 
         if (this.flexDirection == FlexDirection.ROW) {
-            h.fitHeight(this);
+            fitHeight(this);
         }
 
         if (this.flexDirection == FlexDirection.COLUMN) {
-            h.fitWidth(this);
+            fitWidth(this);
         }
 
-        h.setItems(this);
+        setItems(this);
         return this;
     }
 
@@ -148,9 +169,9 @@ class Flex {
 
         if (this.alignItems == AlignItems.STRETCH && alignItems != AlignItems.STRETCH) {
             if (this.flexDirection == FlexDirection.ROW) {
-                h.resetHeights(this);
+                resetHeights(this);
             } else {
-                h.resetWidths(this);
+                resetWidths(this);
             }
         }
 
@@ -159,33 +180,33 @@ class Flex {
         switch (alignItems) {
             case AlignItems.CENTER:
                 if (this.flexDirection == FlexDirection.ROW) {
-                    h.setAlignV(this, Alignment.CENTER);
+                    setAlignV(this, Alignment.CENTER);
                 } else {
-                    h.setAlignH(this, Alignment.CENTER);
+                    setAlignH(this, Alignment.CENTER);
                 }
                 break;
 
             case AlignItems.FLEX_START:
                 if (this.flexDirection == FlexDirection.ROW) {
-                    h.setAlignV(this, Alignment.TOP);
+                    setAlignV(this, Alignment.TOP);
                 } else {
-                    h.setAlignH(this, Alignment.LEFT);
+                    setAlignH(this, Alignment.LEFT);
                 }
                 break;
 
             case AlignItems.FLEX_END:
                 if (this.flexDirection == FlexDirection.ROW) {
-                    h.setAlignV(this, Alignment.BOTTOM);
+                    setAlignV(this, Alignment.BOTTOM);
                 } else {
-                    h.setAlignH(this, Alignment.RIGHT);
+                    setAlignH(this, Alignment.RIGHT);
                 }
                 break;
 
             case AlignItems.STRETCH:
                 if (this.flexDirection == FlexDirection.ROW) {
-                    h.setAlignV(this, Alignment.STRETCH);
+                    setAlignV(this, Alignment.STRETCH);
                 } else {
-                    h.setAlignH(this, Alignment.STRETCH);
+                    setAlignH(this, Alignment.STRETCH);
                 }
                 break;
 
@@ -200,10 +221,10 @@ class Flex {
         this.fitContent = fitToContent;
         if (fitToContent) {
             if (this.flexDirection == FlexDirection.ROW) {
-                let newWidth = h.getItemsSize(this) + 2 * this.padding;
+                let newWidth = getItemsSize(this) + 2 * this.padding;
                 this.setWidth(newWidth);
             } else {
-                let newHeight = h.getItemsSize(this) + 2 * this.padding;
+                let newHeight = getItemsSize(this) + 2 * this.padding;
                 this.setHeight(newHeight);
             }
         }
@@ -212,23 +233,23 @@ class Flex {
 
     setHeight(height) {
         this.height = height;
-        h.resetHeights(this);
-        h.setItems(this);
+        resetHeights(this);
+        setItems(this);
         return this;
     }
 
     setWidth(width) {
         this.width = width;
-        h.resetWidths(this);
+        resetWidths(this);
         if (this.flexDirection == FlexDirection.COLUMN) {
             for (let i = 0; i < this.items.length; i++) {
                 let item = this.items[i];
                 if (item.type == 'Text') {
-                    h.fitTextToColumn(this, item);
+                    fitTextToColumn(this, item);
                 }
             }
         }
-        h.setItems(this);
+        setItems(this);
         return this;
     }
 
@@ -238,41 +259,41 @@ class Flex {
         switch (justifyContent) {
             case JustifyContent.CENTER:
                 if (this.flexDirection == FlexDirection.ROW) {
-                    h.setAlignH(this, Alignment.CENTER);
+                    setAlignH(this, Alignment.CENTER);
                 } else {
-                    h.setAlignV(this, Alignment.CENTER);
+                    setAlignV(this, Alignment.CENTER);
                 }
                 break;
 
             case JustifyContent.FLEX_START:
                 if (this.flexDirection == FlexDirection.ROW) {
-                    h.setAlignH(this, Alignment.LEFT);
+                    setAlignH(this, Alignment.LEFT);
                 } else {
-                    h.setAlignV(this, Alignment.TOP);
+                    setAlignV(this, Alignment.TOP);
                 }
                 break;
 
             case JustifyContent.FLEX_END:
                 if (this.flexDirection == FlexDirection.ROW) {
-                    h.setAlignH(this, Alignment.RIGHT);
+                    setAlignH(this, Alignment.RIGHT);
                 } else {
-                    h.setAlignV(this, Alignment.BOTTOM);
+                    setAlignV(this, Alignment.BOTTOM);
                 }
                 break;
 
             case JustifyContent.SPACE_AROUND:
                 if (this.flexDirection == FlexDirection.ROW) {
-                    h.setJustifyH(this);
+                    setJustifyH(this);
                 } else {
-                    h.setJustifyV(this);
+                    setJustifyV(this);
                 }
                 break;
 
             case JustifyContent.SPACE_BETWEEN:
                 if (this.flexDirection == FlexDirection.ROW) {
-                    h.setJustifyH(this);
+                    setJustifyH(this);
                 } else {
-                    h.setJustifyV(this);
+                    setJustifyV(this);
                 }
                 break;
 
@@ -304,7 +325,7 @@ class Flex {
             this.origin.y = 0;
         };
 
-        h.setItems(this);
+        setItems(this);
 
         return this;
     }
@@ -331,13 +352,13 @@ class Flex {
 
     setX(x) {
         this.x = x;
-        h.setItems(this);
+        setItems(this);
         return this;
     }
 
     setY(y) {
         this.y = y;
-        h.setItems(this);
+        setItems(this);
         return this;
     }
 }
