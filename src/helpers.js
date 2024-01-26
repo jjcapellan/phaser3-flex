@@ -23,16 +23,16 @@ function alignCrossCenter(f, dim) {
     });
 }
 
+// This function affects only to flex items
 function alignCrossStretch(f, dim) {
     const setPos = SetPosName[dim];
     const bound = dim == "width" ? getLeft(f) : getTop(f);
     let maxSize = f[dim] - 2 * f.padding;
-    let position = bound + f.padding; console.log(f.items);
+    let position = bound + f.padding;
 
     f.items.forEach(item => {
-        if (!item._isFlex && item.type != "Text") {
-            item.setOrigin(0, 0);
-        }
+        if(!item._isFlex) return;
+        
         if (item.fitContent && f.flexDirection != item.flexDirection) {
             item.fitContent = false;
         }
@@ -41,9 +41,9 @@ function alignCrossStretch(f, dim) {
             maxSize = item[dim];
         }
     });
-    // TO DO : support for flex object
+    
     f.items.forEach(item => {
-        if (item._isFlex || item.type == "Text") return;
+        if(!item._isFlex) return;
         const size = dim == "width" ? [maxSize, item.height] : [item.width, maxSize];
         setItemDisplaySize(item, ...size);
     });
