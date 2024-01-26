@@ -139,6 +139,13 @@ export default class Demo extends Phaser.Scene {
         });
 
         tasks.push({
+            text: 'flex1.setHeight(200)',
+            fn: () => {
+                flex1.setHeight(200);
+            }
+        });
+
+        tasks.push({
             text: 'flex1.setAlignItems(Fbx.AlignItems.FLEX_START)',
             fn: () => {
                 flex1.setAlignItems(Fbx.AlignItems.FLEX_START);
