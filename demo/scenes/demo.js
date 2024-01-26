@@ -132,9 +132,9 @@ export default class Demo extends Phaser.Scene {
         });
 
         tasks.push({
-            text: 'flex3.setAlignItems(Fbx.AlignItems.STRETCH)',
+            text: 'flex1.setAlignItems(Fbx.AlignItems.STRETCH)',
             fn: () => {
-                flex3.setAlignItems(Fbx.AlignItems.STRETCH);
+                flex1.setAlignItems(Fbx.AlignItems.STRETCH);
             }
         });
 
@@ -149,6 +149,13 @@ export default class Demo extends Phaser.Scene {
             text: 'flex1.setWidth(500)',
             fn: () => {
                 flex1.setWidth(500);
+            }
+        });
+
+        tasks.push({
+            text: 'flex3.remove(1, true)',
+            fn: () => {
+                flex3.remove(1, true);
             }
         });
 
