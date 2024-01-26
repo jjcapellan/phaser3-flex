@@ -31,9 +31,10 @@ function alignCrossStretch(f, dim) {
     let position = bound + f.padding;
 
     f.items.forEach(item => {
-        if(!item._isFlex) return;
-        
+        if (!item._isFlex) return;
+
         if (item.fitContent && f.flexDirection != item.flexDirection) {
+            item._fitContent = item.fitContent;
             item.fitContent = false;
         }
         item[setPos](position);
@@ -41,9 +42,14 @@ function alignCrossStretch(f, dim) {
             maxSize = item[dim];
         }
     });
-    
-    f.items.forEach(item => {
-        if(!item._isFlex) return;
+
+    f.items.forEach((item, index) => {
+        if (!item._isFlex) return;
+        if (dim == "width") {
+            f._widths[index] = item[dim];
+        } else {
+            f._heights[index] = item[dim];
+        }
         const size = dim == "width" ? [maxSize, item.height] : [item.width, maxSize];
         setItemDisplaySize(item, ...size);
     });
@@ -192,6 +198,14 @@ function resetWidths(f) {
         setItemDisplaySize(item, f._widths[i], item.height);
         item.width = f._widths[i];
     }
+}
+
+function restoreFitContent(f) {
+    f.items.forEach(item => {
+        if (item._isFlex) {
+            item.fitContent = item._fitContent;
+        }
+    });
 }
 
 function setAlignH(f, alignment) {
@@ -370,6 +384,7 @@ export {
     getItemsSize,
     resetHeights,
     resetWidths,
+    restoreFitContent,
     setAlignH,
     setAlignV,
     setItems,

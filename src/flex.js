@@ -14,6 +14,7 @@ import {
     getItemsSize,
     resetHeights,
     resetWidths,
+    restoreFitContent,
     setAlignH,
     setAlignV,
     setItems,
@@ -44,11 +45,14 @@ class Flex {
         this._growSum = 0;
         this._bounds = {};
 
+
         if ((this.flexDirection == FlexDirection.ROW && !this.width) ||
             (this.flexDirection == FlexDirection.COLUMN && !this.height)) {
             // Size changes if new items are added or removed
             this.fitContent = true;
         }
+        // Used to restore value of fitContent after stretch alignment in cross axis
+        this._fitContent = this.fitContent;
 
         return this;
     }
@@ -172,6 +176,7 @@ class Flex {
             } else {
                 resetWidths(this);
             }
+            restoreFitContent(this);
         }
 
         this.alignItems = alignItems;
