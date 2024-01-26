@@ -46,12 +46,11 @@ function alignCrossStretch(f, dim) {
   const bound = dim == "width" ? getLeft(f) : getTop(f);
   let maxSize = f[dim] - 2 * f.padding;
   let position = bound + f.padding;
-  console.log(f.items);
   f.items.forEach((item) => {
-    if (!item._isFlex && item.type != "Text") {
-      item.setOrigin(0, 0);
-    }
+    if (!item._isFlex)
+      return;
     if (item.fitContent && f.flexDirection != item.flexDirection) {
+      item._fitContent = item.fitContent;
       item.fitContent = false;
     }
     item[setPos](position);
@@ -59,9 +58,14 @@ function alignCrossStretch(f, dim) {
       maxSize = item[dim];
     }
   });
-  f.items.forEach((item) => {
-    if (item._isFlex || item.type == "Text")
+  f.items.forEach((item, index) => {
+    if (!item._isFlex)
       return;
+    if (dim == "width") {
+      f._widths[index] = item[dim];
+    } else {
+      f._heights[index] = item[dim];
+    }
     const size = dim == "width" ? [maxSize, item.height] : [item.width, maxSize];
     setItemDisplaySize(item, ...size);
   });
@@ -179,6 +183,13 @@ function resetWidths(f) {
     setItemDisplaySize(item, f._widths[i], item.height);
     item.width = f._widths[i];
   }
+}
+function restoreFitContent(f) {
+  f.items.forEach((item) => {
+    if (item._isFlex) {
+      item.fitContent = item._fitContent;
+    }
+  });
 }
 function setAlignH(f, alignment) {
   if (alignment == Alignment.STRETCH) {
@@ -343,6 +354,7 @@ var Flex = class {
     if (this.flexDirection == FlexDirection.ROW && !this.width || this.flexDirection == FlexDirection.COLUMN && !this.height) {
       this.fitContent = true;
     }
+    this._fitContent = this.fitContent;
     return this;
   }
   /**
@@ -444,6 +456,7 @@ var Flex = class {
       } else {
         resetWidths(this);
       }
+      restoreFitContent(this);
     }
     this.alignItems = alignItems;
     switch (alignItems) {
