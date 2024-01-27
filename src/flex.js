@@ -22,22 +22,105 @@ import {
 } from "./helpers.js";
 
 class Flex {
+    /**
+     * Creates an instances of an object of class Flex.
+     * @param {object} config 
+     * @param {number} [config.x = 0] X position.
+     * @param {number} [config.y = 0] Y position
+     * @param {number} [config.width = 0] Width of this object.
+     * @param {number} [config.height = 0] Height of this object.
+     * @param {number} [config.padding = 10] Minimum distance between this object content and its border.
+     * @param {number} [config.itemsMargin = 4] Minimum distance between items contained inside this object.
+     * @param {number} [config.alignItems = 1] Alignment of the items with respect to the cross axis.
+     * @param {number} [config.flexDirection = 2] Sets how items are placed in the flex object defining the main axis.
+     * @param {number} [config.justifyContent = 3] Alignment of the items with respect to the main axis.
+     * @returns {object} This Flex instance.
+     */
     constructor(config) {
+        /**
+         * X position. Use *setX* to change this value.
+         * @type {number}
+         */
         this.x = config.x || 0;
+
+        /**
+         * Y position. Use *setY* to change this value.
+         * @type {number}
+         */
         this.y = config.y || 0;
+
+        /**
+         * Width of this object. Use *setWidth* to change this value.
+         * @type {number}
+         */
         this.width = config.width || 0;
+
+        /**
+         * Height of this object. Use *setHeight* to change this value.
+         * @type {number}
+         */
         this.height = config.height || 0;
+
+        /**
+         * Minimum distance between this object content and its border.
+         * @type {number}
+         */
         this.padding = config.padding || 10;
+
+        /**
+         * Minimum distance between items contained inside this object.
+         * @type {number}
+         */
         this.itemsMargin = config.itemsMargin || 4;
+
+        /**
+         * Alignment of the items with respect to the cross axis.  
+         * Values: 1 (center), 2(flex-end), 3(flex-start), 4(stretch).  
+         * The stretch alignment is only applicable to other flex objects.  
+         * Use *setAlignItems* to change this property. For convenience you can use the enum *AlignItems*.
+         * @type {number}
+         */
         this.alignItems = config.alignItems || AlignItems.CENTER;
+
+        /**
+         * This property sets how items are placed in the flex object defining the main axis.  
+         * Values: 1 (column), 2(row).  
+         * Use *setFlexDirection* to change this property. For convenience you can use the enum *FlexDirection*.
+         * @type {number}
+         */
         this.flexDirection = config.flexDirection || FlexDirection.ROW;
+
+        /**
+         * Alignment of the items with respect to the main axis.  
+         * Values: 1 (center), 2(flex-end), 3(flex-start), 4(space-around), 5(space-between).  
+         * Use *setJustifyContent* to change this property. For convenience you can use the enum *JustifyContent*.
+         * @type {number}
+         */
         this.justifyContent = config.justifyContent || JustifyContent.FLEX_START;
 
+
+        /**
+         * Array of items managed by this object.
+         * @readonly
+         * @type {Array.<Object>}
+         */
+        this.items = [];
+
+        /**
+         * Should cross axis size match the content?
+         * @type {boolean}
+         */
+        this.fitContent = false;
+
+        /**
+         * This property 2d vector, whose x and y values are defined in relative terms with respect to the size. It can be understood as the anchor point of this object and a 2d coordinate grid.  
+         * type {object}
+         */
         this.origin = { x: 0, y: 0 };
+
         this._scrollFactorX = 0;
         this._scrollFactorY = 0;
         this._fparent = null;
-        this.items = [];
         this._isFlex = true;
         this._basisSum = 0;
         this._heights = [];
@@ -58,10 +141,13 @@ class Flex {
     }
 
     /**
+     * Adds an item to the items list of this object. The position and size of this items
+     * are managed by this object.
      * 
      * @param {object} item 
      * @param {number} flexGrow 
      * @param {number} flexShrink 
+     * @returns {object} This Flex instance.
      */
     add(item, flexGrow = 0, flexShrink = 1) {
         item.setOrigin(0, 0);
@@ -110,6 +196,11 @@ class Flex {
 
     }
 
+    /**
+     * Each item managed by this object are destroyed.
+     * 
+     * @returns {object} This Flex instance.
+     */
     clear() {
         this.items.forEach(item => {
             if (item._isFlex) {
@@ -125,6 +216,13 @@ class Flex {
         return this;
     }
 
+    /**
+     * An item is removed from the items list managed by this flex object.
+     * 
+     * @param {number} index Index of the item to be removed in the items array of this instance. 
+     * @param {boolean} destroy The item should be destroyed?.
+     * @returns {object} This Flex instance.
+     */
     remove(index, destroy) {
         if (this.items[index] == undefined) {
             return;
@@ -152,11 +250,21 @@ class Flex {
         return this;
     }
 
+    /**
+     * Sets the size of this object.
+     * 
+     * @param {number} width 
+     * @param {number} height 
+     */
     setDisplaySize(width, height) {
         this.setWidth(width);
         this.setHeight(height);
     }
 
+    /**
+     * Disposes all resources used by this object.
+     * 
+     */
     destroy() {
         this.clear(true);
         this.items = null;
@@ -168,6 +276,12 @@ class Flex {
         this.destroyed = true;
     }
 
+    /**
+     * Sets the *alignItems* property of this object.
+     * 
+     * @param {AlignItems} alignItems 
+     * @returns {object} This Flex instance. 
+     */
     setAlignItems(alignItems) {
 
         if (this.alignItems == AlignItems.STRETCH && alignItems != AlignItems.STRETCH) {
@@ -221,6 +335,12 @@ class Flex {
         return this;
     }
 
+    /**
+     * Sets the *fitContent* of this object.
+     * 
+     * @param {boolean} fitToContent 
+     * @returns {object} This Flex instance.
+     */
     setFitContent(fitToContent) {
         this.fitContent = fitToContent;
         if (fitToContent) {
@@ -235,6 +355,12 @@ class Flex {
         return this;
     }
 
+    /**
+     * Sets the *height* of this object.
+     * 
+     * @param {number} height 
+     * @returns {object} This Flex instance.
+     */
     setHeight(height) {
         this.height = height;
         resetHeights(this);
@@ -242,6 +368,12 @@ class Flex {
         return this;
     }
 
+    /**
+     * Sets the *width* of this object.
+     * 
+     * @param {number} height 
+     * @returns {object} This Flex instance.
+     */
     setWidth(width) {
         this.width = width;
         resetWidths(this);
@@ -257,6 +389,12 @@ class Flex {
         return this;
     }
 
+    /**
+     * Sets the *justifyContent* property of this object.
+     * 
+     * @param {JustifyContent} justifyContent 
+     * @returns {object} This Flex instance.
+     */
     setJustifyContent(justifyContent) {
         this.justifyContent = justifyContent;
 
@@ -300,6 +438,13 @@ class Flex {
         return this;
     }
 
+    /**
+     * Sets the *origin* property of this object.
+     * 
+     * @param {number} x 
+     * @param {number} y 
+     * @returns {object} This Flex instance.
+     */
     setOrigin(x, y) {
         if (y == undefined) {
             y = x;
@@ -326,7 +471,13 @@ class Flex {
         return this;
     }
 
-    // Items shouldn"t move
+    /**
+     * Sets the *scrollFactor* property of this object.
+     * 
+     * @param {number} x 
+     * @param {number} [y = x] 
+     * @returns {object} This Flex instance.
+     */
     setScrollFactor(x, y) {
         if (x > 1) {
             x = 1;
@@ -346,12 +497,24 @@ class Flex {
         return this;
     }
 
+    /**
+     * Sets the x position of this object.
+     * 
+     * @param {number} x 
+     * @returns {object} This Flex instance.
+     */
     setX(x) {
         this.x = x;
         setItems(this);
         return this;
     }
 
+    /**
+     * Sets the y position of this object.
+     * 
+     * @param {number} y 
+     * @returns {object} This Flex instance.
+     */
     setY(y) {
         this.y = y;
         setItems(this);
