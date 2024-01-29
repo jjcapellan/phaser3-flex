@@ -256,10 +256,13 @@ class Flex {
      * 
      * @param {number} width 
      * @param {number} height 
+     * @returns {object} This Flex instance. 
      */
     setDisplaySize(width, height) {
         this.setWidth(width);
         this.setHeight(height);
+
+        return this;
     }
 
     /**
