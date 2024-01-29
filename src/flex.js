@@ -107,14 +107,15 @@ class Flex {
         this.items = [];
 
         /**
-         * Should cross axis size match the content?
+         * Should cross axis size fit to content?
          * @type {boolean}
          */
         this.fitContent = false;
 
         /**
-         * This property 2d vector, whose x and y values are defined in relative terms with respect to the size. It can be understood as the anchor point of this object and a 2d coordinate grid.  
-         * type {object}
+         * 2D vector defining the anchor point of this object. (Type: { x: number, y: number }).  
+         * X and Y values are a number between 0 and 1.
+         * @type {object}
          */
         this.origin = { x: 0, y: 0 };
 
