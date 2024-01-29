@@ -27,7 +27,7 @@
     * [.add(item, flexGrow, flexShrink)](#Flex+add) ⇒ <code>object</code>
     * [.clear()](#Flex+clear) ⇒ <code>object</code>
     * [.remove(index, destroy)](#Flex+remove) ⇒ <code>object</code>
-    * [.setDisplaySize(width, height)](#Flex+setDisplaySize)
+    * [.setDisplaySize(width, height)](#Flex+setDisplaySize) ⇒ <code>object</code>
     * [.destroy()](#Flex+destroy)
     * [.setAlignItems(alignItems)](#Flex+setAlignItems) ⇒ <code>object</code>
     * [.setFitContent(fitToContent)](#Flex+setFitContent) ⇒ <code>object</code>
@@ -177,10 +177,11 @@ An item is removed from the items list managed by this flex object.
 
 <a name="Flex+setDisplaySize"></a>
 
-### flex.setDisplaySize(width, height)
+### flex.setDisplaySize(width, height) ⇒ <code>object</code>
 Sets the size of this object.
 
 **Kind**: instance method of [<code>Flex</code>](#Flex)  
+**Returns**: <code>object</code> - This Flex instance.  
 
 | Param | Type |
 | --- | --- |
