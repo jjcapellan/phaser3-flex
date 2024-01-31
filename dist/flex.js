@@ -1,32 +1,26 @@
-// src/constants.js
-var Alignment = {
-  BOTTOM: 1,
-  CENTER: 2,
-  JUSTIFY: 3,
-  LEFT: 4,
-  RIGHT: 5,
-  STRETCH: 6,
-  TOP: 7
-};
-var AlignItems = {
-  CENTER: 1,
-  FLEX_END: 2,
-  FLEX_START: 3,
-  STRETCH: 4
-};
-var FlexDirection = {
-  COLUMN: 1,
-  ROW: 2
-};
-var JustifyContent = {
-  CENTER: 1,
-  FLEX_END: 2,
-  FLEX_START: 3,
-  SPACE_AROUND: 4,
-  SPACE_BETWEEN: 5
-};
+// src/sharedtypes.ts
+var AlignItems = /* @__PURE__ */ ((AlignItems3) => {
+  AlignItems3[AlignItems3["CENTER"] = 1] = "CENTER";
+  AlignItems3[AlignItems3["FLEX_END"] = 2] = "FLEX_END";
+  AlignItems3[AlignItems3["FLEX_START"] = 3] = "FLEX_START";
+  AlignItems3[AlignItems3["STRETCH"] = 4] = "STRETCH";
+  return AlignItems3;
+})(AlignItems || {});
+var FlexDirection = /* @__PURE__ */ ((FlexDirection2) => {
+  FlexDirection2[FlexDirection2["COLUMN"] = 1] = "COLUMN";
+  FlexDirection2[FlexDirection2["ROW"] = 2] = "ROW";
+  return FlexDirection2;
+})(FlexDirection || {});
+var JustifyContent = /* @__PURE__ */ ((JustifyContent2) => {
+  JustifyContent2[JustifyContent2["CENTER"] = 1] = "CENTER";
+  JustifyContent2[JustifyContent2["FLEX_END"] = 2] = "FLEX_END";
+  JustifyContent2[JustifyContent2["FLEX_START"] = 3] = "FLEX_START";
+  JustifyContent2[JustifyContent2["SPACE_AROUND"] = 4] = "SPACE_AROUND";
+  JustifyContent2[JustifyContent2["SPACE_BETWEEN"] = 5] = "SPACE_BETWEEN";
+  return JustifyContent2;
+})(JustifyContent || {});
 
-// src/helpers.js
+// src/helpers.ts
 var SetPosName = {
   width: "setX",
   height: "setY"
@@ -71,7 +65,7 @@ function alignCrossStretch(f, dim) {
   });
 }
 function isMainAxis(dim, dir) {
-  return dim == "width" && dir == FlexDirection.ROW || dim == "height" && dir == FlexDirection.COLUMN;
+  return dim == "width" && dir == 2 /* ROW */ || dim == "height" && dir == 1 /* COLUMN */;
 }
 function alignEnd(f, dim) {
   const items = f.items;
@@ -157,7 +151,7 @@ function fitWidth(f) {
   fitDimension(f, "width");
 }
 function getFreeSpace(f) {
-  const dim = f.flexDirection == FlexDirection.ROW ? f.width : f.height;
+  const dim = f.flexDirection == 2 /* ROW */ ? f.width : f.height;
   return dim - getItemsSize(f) - 2 * f.padding;
 }
 function getItemsSize(f) {
@@ -192,35 +186,35 @@ function restoreFitContent(f) {
   });
 }
 function setAlignH(f, alignment) {
-  if (alignment == Alignment.STRETCH) {
+  if (alignment == 6 /* STRETCH */) {
     alignCrossStretch(f, "width");
     return;
   }
-  if (f.flexDirection == FlexDirection.ROW) {
+  if (f.flexDirection == 2 /* ROW */) {
     let freeSpace = getFreeSpace(f);
     if (!f.fitContent && (f._growSum && freeSpace >= 0 || freeSpace < 0)) {
       fillH(f);
       return;
     }
   }
-  if (alignment == Alignment.LEFT) {
-    if (f.flexDirection == FlexDirection.ROW) {
+  if (alignment == 4 /* LEFT */) {
+    if (f.flexDirection == 2 /* ROW */) {
       alignStart(f, "width");
       return;
     }
     alignStart(f, "width");
     return;
   }
-  if (alignment == Alignment.RIGHT) {
-    if (f.flexDirection == FlexDirection.ROW) {
+  if (alignment == 5 /* RIGHT */) {
+    if (f.flexDirection == 2 /* ROW */) {
       alignEnd(f, "width");
       return;
     }
     alignEnd(f, "width");
     return;
   }
-  if (alignment == Alignment.CENTER) {
-    if (f.flexDirection == FlexDirection.ROW) {
+  if (alignment == 2 /* CENTER */) {
+    if (f.flexDirection == 2 /* ROW */) {
       alignMainCenter(f, "width");
     } else {
       alignCrossCenter(f, "width");
@@ -229,35 +223,35 @@ function setAlignH(f, alignment) {
   }
 }
 function setAlignV(f, alignment) {
-  if (alignment == Alignment.STRETCH) {
+  if (alignment == 6 /* STRETCH */) {
     alignCrossStretch(f, "height");
     return;
   }
-  if (f.flexDirection == FlexDirection.COLUMN) {
+  if (f.flexDirection == 1 /* COLUMN */) {
     let freeSpace = getFreeSpace(f);
     if (!f.fitContent && (f._growSum && freeSpace >= 0 || freeSpace < 0)) {
-      fillV();
+      fillV(f);
       return;
     }
   }
-  if (alignment == Alignment.TOP) {
-    if (f.flexDirection == FlexDirection.COLUMN) {
+  if (alignment == 7 /* TOP */) {
+    if (f.flexDirection == 1 /* COLUMN */) {
       alignStart(f, "height");
       return;
     }
     alignStart(f, "height");
     return;
   }
-  if (alignment == Alignment.BOTTOM) {
-    if (f.flexDirection == FlexDirection.COLUMN) {
+  if (alignment == 1 /* BOTTOM */) {
+    if (f.flexDirection == 1 /* COLUMN */) {
       alignEnd(f, "height");
       return;
     }
     alignEnd(f, "height");
     return;
   }
-  if (alignment == Alignment.CENTER) {
-    if (f.flexDirection == FlexDirection.COLUMN) {
+  if (alignment == 2 /* CENTER */) {
+    if (f.flexDirection == 1 /* COLUMN */) {
       alignMainCenter(f, "height");
     } else {
       alignCrossCenter(f, "height");
@@ -282,7 +276,7 @@ function setItems(f) {
   f.setAlignItems(f.alignItems);
 }
 function setItemSize(f, item, freeSpace) {
-  const isRow = f.flexDirection == FlexDirection.ROW;
+  const isRow = f.flexDirection == 2 /* ROW */;
   let dim = isRow ? "width" : "height";
   let dimValue = 0;
   if (freeSpace >= 0) {
@@ -299,12 +293,12 @@ function setItemSize(f, item, freeSpace) {
   item[dim] = dimValue;
 }
 function setJustify(f) {
-  const dim = f.flexDirection == FlexDirection.ROW ? "width" : "height";
+  const dim = f.flexDirection == 2 /* ROW */ ? "width" : "height";
   const setPos = SetPosName[dim];
   let freeSpace = getFreeSpace(f);
   let padding = 0;
   let position = dim == "width" ? getLeft(f) : getTop(f);
-  if (f.justifyContent == JustifyContent.SPACE_AROUND) {
+  if (f.justifyContent == 4 /* SPACE_AROUND */) {
     padding = freeSpace / (f.items.length + 1);
     position += f.padding + padding;
   } else {
@@ -328,8 +322,71 @@ function updateBounds(f) {
   };
 }
 
-// src/flex.js
+// src/flex.ts
 var Flex = class {
+  /**
+   * X position. (Default = 0)
+   */
+  x;
+  /**
+   * Y position. (Default = 0)
+   */
+  y;
+  /**
+   * Width of this object. (Default = 0)
+   */
+  width;
+  /**
+   * Height of this object. (Default = 0)
+   */
+  height;
+  /**
+   * Minimum distance between this object content and its border. (Default = 10)
+   */
+  padding;
+  /**
+   * Minimum distance between items contained inside this object. (Default = 4)
+   */
+  itemsMargin;
+  /**
+   * Alignment of the items with respect to the cross axis. (Default = AlignItems.CENTER)
+   */
+  alignItems;
+  /**
+   * Sets how items are placed in the flex object defining the main axis. (Default = FlexDirection.ROW)
+   */
+  flexDirection;
+  /**
+   * Alignment of the items with respect to the main axis. (Default = JustifyContent.FLEX_START)
+   */
+  justifyContent;
+  /**
+   * Array of all items managed by this object.
+   */
+  items;
+  /**
+   * Position of this object anchor relative to its width and height. (x and y between 0 and 1).
+   * Sets how this object is placed.
+   */
+  origin;
+  /**
+   * Original size of this object in the main axis. 
+   */
+  basis;
+  /**
+   * Should cross axis size fit to content?
+   */
+  fitContent;
+  _fitContent;
+  _fparent;
+  _scrollFactorX;
+  _scrollFactorY;
+  _isFlex;
+  _basisSum;
+  _heights;
+  _widths;
+  _growSum;
+  _bounds;
   constructor(config) {
     this.x = config.x || 0;
     this.y = config.y || 0;
@@ -337,31 +394,35 @@ var Flex = class {
     this.height = config.height || 0;
     this.padding = config.padding || 10;
     this.itemsMargin = config.itemsMargin || 4;
-    this.alignItems = config.alignItems || AlignItems.CENTER;
-    this.flexDirection = config.flexDirection || FlexDirection.ROW;
-    this.justifyContent = config.justifyContent || JustifyContent.FLEX_START;
+    this.alignItems = config.alignItems || 1 /* CENTER */;
+    this.flexDirection = config.flexDirection || 2 /* ROW */;
+    this.justifyContent = config.justifyContent || 3 /* FLEX_START */;
+    this.items = [];
+    this.fitContent = false;
     this.origin = { x: 0, y: 0 };
     this._scrollFactorX = 0;
     this._scrollFactorY = 0;
     this._fparent = null;
-    this.items = [];
     this._isFlex = true;
     this._basisSum = 0;
     this._heights = [];
     this._widths = [];
     this._growSum = 0;
-    this._bounds = {};
-    if (this.flexDirection == FlexDirection.ROW && !this.width || this.flexDirection == FlexDirection.COLUMN && !this.height) {
+    this._bounds = { left: 0, right: 0, top: 0, bottom: 0 };
+    if (this.flexDirection == 2 /* ROW */ && !this.width || this.flexDirection == 1 /* COLUMN */ && !this.height) {
       this.fitContent = true;
     }
     this._fitContent = this.fitContent;
     return this;
   }
   /**
+   * Adds an item to the items list of this object. The position and size of this items
+   * are managed by this object.
    * 
-   * @param {object} item 
-   * @param {number} flexGrow 
-   * @param {number} flexShrink 
+   * @param item 
+   * @param flexGrow 
+   * @param flexShrink 
+   * @returns This Flex instance.
    */
   add(item, flexGrow = 0, flexShrink = 1) {
     item.setOrigin(0, 0);
@@ -374,22 +435,22 @@ var Flex = class {
       item.flexGrow = 0;
       item.flexShrink = 0;
     }
-    if (this.width && item.type == "Text" && this.flexDirection == FlexDirection.COLUMN) {
+    if (this.width && item.type == "Text" && this.flexDirection == 1 /* COLUMN */) {
       fitTextToColumn(this, item);
     }
-    item.basis = this.flexDirection == FlexDirection.ROW ? item.width : item.height;
+    item.basis = this.flexDirection == 2 /* ROW */ ? item.width : item.height;
     this._basisSum += item.basis;
     this.items.push(item);
     this._heights.push(item.height);
     this._widths.push(item.width);
     this._growSum += item.flexGrow;
-    if (this.flexDirection == FlexDirection.ROW) {
+    if (this.flexDirection == 2 /* ROW */) {
       checkHeight(this, item.height);
       if (this.fitContent) {
         checkWidth(this, getItemsSize(this));
       }
     }
-    if (this.flexDirection == FlexDirection.COLUMN) {
+    if (this.flexDirection == 1 /* COLUMN */) {
       checkWidth(this, item.width);
       if (this.fitContent) {
         checkHeight(this, getItemsSize(this));
@@ -400,10 +461,15 @@ var Flex = class {
       this._fparent.setX(this._fparent.x);
     return this;
   }
+  /**
+   * Each item managed by this object are destroyed.
+   * 
+   * @returns This Flex instance.
+   */
   clear() {
     this.items.forEach((item) => {
       if (item._isFlex) {
-        item.clear(true);
+        item.clear();
       }
     });
     this.items.forEach((item) => item.destroy());
@@ -413,6 +479,13 @@ var Flex = class {
     this._basisSum = 0;
     return this;
   }
+  /**
+   * An item is removed from the items list managed by this flex object.
+   * 
+   * @param index Index of the item to be removed in the items array of this instance. 
+   * @param destroy The item should be destroyed?.
+   * @returns This Flex instance.
+   */
   remove(index, destroy) {
     if (this.items[index] == void 0) {
       return;
@@ -426,32 +499,49 @@ var Flex = class {
     if (destroy) {
       item.destroy();
     }
-    if (this.flexDirection == FlexDirection.ROW) {
+    if (this.flexDirection == 2 /* ROW */) {
       fitHeight(this);
     }
-    if (this.flexDirection == FlexDirection.COLUMN) {
+    if (this.flexDirection == 1 /* COLUMN */) {
       fitWidth(this);
     }
     setItems(this);
     return this;
   }
+  /**
+   * Sets the size of this object.
+   * 
+   * @param width 
+   * @param height 
+   * @returns This Flex instance. 
+   */
   setDisplaySize(width, height) {
     this.setWidth(width);
     this.setHeight(height);
+    return this;
   }
+  /**
+   * Disposes all resources used by this object.
+   * 
+   */
   destroy() {
-    this.clear(true);
+    this.clear();
     this.items = null;
     this._widths = null;
     this._heights = null;
     this._bounds = null;
     this.origin = null;
     this._fparent = null;
-    this.destroyed = true;
   }
+  /**
+   * Sets the *alignItems* property of this object.
+   * 
+   * @param alignItems 
+   * @returns This Flex instance. 
+   */
   setAlignItems(alignItems) {
-    if (this.alignItems == AlignItems.STRETCH && alignItems != AlignItems.STRETCH) {
-      if (this.flexDirection == FlexDirection.ROW) {
+    if (this.alignItems == 4 /* STRETCH */ && alignItems != 4 /* STRETCH */) {
+      if (this.flexDirection == 2 /* ROW */) {
         resetHeights(this);
       } else {
         resetWidths(this);
@@ -460,32 +550,32 @@ var Flex = class {
     }
     this.alignItems = alignItems;
     switch (alignItems) {
-      case AlignItems.CENTER:
-        if (this.flexDirection == FlexDirection.ROW) {
-          setAlignV(this, Alignment.CENTER);
+      case 1 /* CENTER */:
+        if (this.flexDirection == 2 /* ROW */) {
+          setAlignV(this, 2 /* CENTER */);
         } else {
-          setAlignH(this, Alignment.CENTER);
+          setAlignH(this, 2 /* CENTER */);
         }
         break;
-      case AlignItems.FLEX_START:
-        if (this.flexDirection == FlexDirection.ROW) {
-          setAlignV(this, Alignment.TOP);
+      case 3 /* FLEX_START */:
+        if (this.flexDirection == 2 /* ROW */) {
+          setAlignV(this, 7 /* TOP */);
         } else {
-          setAlignH(this, Alignment.LEFT);
+          setAlignH(this, 4 /* LEFT */);
         }
         break;
-      case AlignItems.FLEX_END:
-        if (this.flexDirection == FlexDirection.ROW) {
-          setAlignV(this, Alignment.BOTTOM);
+      case 2 /* FLEX_END */:
+        if (this.flexDirection == 2 /* ROW */) {
+          setAlignV(this, 1 /* BOTTOM */);
         } else {
-          setAlignH(this, Alignment.RIGHT);
+          setAlignH(this, 5 /* RIGHT */);
         }
         break;
-      case AlignItems.STRETCH:
-        if (this.flexDirection == FlexDirection.ROW) {
-          setAlignV(this, Alignment.STRETCH);
+      case 4 /* STRETCH */:
+        if (this.flexDirection == 2 /* ROW */) {
+          setAlignV(this, 6 /* STRETCH */);
         } else {
-          setAlignH(this, Alignment.STRETCH);
+          setAlignH(this, 6 /* STRETCH */);
         }
         break;
       default:
@@ -493,10 +583,16 @@ var Flex = class {
     }
     return this;
   }
+  /**
+   * Sets the *fitContent* of this object.
+   * 
+   * @param fitToContent 
+   * @returns This Flex instance.
+   */
   setFitContent(fitToContent) {
     this.fitContent = fitToContent;
     if (fitToContent) {
-      if (this.flexDirection == FlexDirection.ROW) {
+      if (this.flexDirection == 2 /* ROW */) {
         let newWidth = getItemsSize(this) + 2 * this.padding;
         this.setWidth(newWidth);
       } else {
@@ -506,16 +602,28 @@ var Flex = class {
     }
     return this;
   }
+  /**
+   * Sets the *height* of this object.
+   * 
+   * @param height 
+   * @returns This Flex instance.
+   */
   setHeight(height) {
     this.height = height;
     resetHeights(this);
     setItems(this);
     return this;
   }
+  /**
+   * Sets the *width* of this object.
+   * 
+   * @param height 
+   * @returns This Flex instance.
+   */
   setWidth(width) {
     this.width = width;
     resetWidths(this);
-    if (this.flexDirection == FlexDirection.COLUMN) {
+    if (this.flexDirection == 1 /* COLUMN */) {
       for (let i = 0; i < this.items.length; i++) {
         let item = this.items[i];
         if (item.type == "Text") {
@@ -526,34 +634,40 @@ var Flex = class {
     setItems(this);
     return this;
   }
+  /**
+   * Sets the *justifyContent* property of this object.
+   * 
+   * @param justifyContent 
+   * @returns This Flex instance.
+   */
   setJustifyContent(justifyContent) {
     this.justifyContent = justifyContent;
     switch (justifyContent) {
-      case JustifyContent.CENTER:
-        if (this.flexDirection == FlexDirection.ROW) {
-          setAlignH(this, Alignment.CENTER);
+      case 1 /* CENTER */:
+        if (this.flexDirection == 2 /* ROW */) {
+          setAlignH(this, 2 /* CENTER */);
         } else {
-          setAlignV(this, Alignment.CENTER);
+          setAlignV(this, 2 /* CENTER */);
         }
         break;
-      case JustifyContent.FLEX_START:
-        if (this.flexDirection == FlexDirection.ROW) {
-          setAlignH(this, Alignment.LEFT);
+      case 3 /* FLEX_START */:
+        if (this.flexDirection == 2 /* ROW */) {
+          setAlignH(this, 4 /* LEFT */);
         } else {
-          setAlignV(this, Alignment.TOP);
+          setAlignV(this, 7 /* TOP */);
         }
         break;
-      case JustifyContent.FLEX_END:
-        if (this.flexDirection == FlexDirection.ROW) {
-          setAlignH(this, Alignment.RIGHT);
+      case 2 /* FLEX_END */:
+        if (this.flexDirection == 2 /* ROW */) {
+          setAlignH(this, 5 /* RIGHT */);
         } else {
-          setAlignV(this, Alignment.BOTTOM);
+          setAlignV(this, 1 /* BOTTOM */);
         }
         break;
-      case JustifyContent.SPACE_AROUND:
+      case 4 /* SPACE_AROUND */:
         setJustify(this);
         break;
-      case JustifyContent.SPACE_BETWEEN:
+      case 5 /* SPACE_BETWEEN */:
         setJustify(this);
         break;
       default:
@@ -561,6 +675,13 @@ var Flex = class {
     }
     return this;
   }
+  /**
+   * Sets the *origin* property of this object.
+   * 
+   * @param x 
+   * @param y 
+   * @returns This Flex instance.
+   */
   setOrigin(x, y) {
     if (y == void 0) {
       y = x;
@@ -586,7 +707,13 @@ var Flex = class {
     setItems(this);
     return this;
   }
-  // Items shouldn"t move
+  /**
+   * Sets the *scrollFactor* property of this object.
+   * 
+   * @param x 
+   * @param y 
+   * @returns This Flex instance.
+   */
   setScrollFactor(x, y) {
     if (x > 1) {
       x = 1;
@@ -604,11 +731,23 @@ var Flex = class {
     }
     return this;
   }
+  /**
+   * Sets the x position of this object.
+   * 
+   * @param x 
+   * @returns This Flex instance.
+   */
   setX(x) {
     this.x = x;
     setItems(this);
     return this;
   }
+  /**
+   * Sets the y position of this object.
+   * 
+   * @param y 
+   * @returns This Flex instance.
+   */
   setY(y) {
     this.y = y;
     setItems(this);
@@ -616,7 +755,7 @@ var Flex = class {
   }
 };
 
-// src/index.js
+// src/index.ts
 if (typeof window != "undefined") {
   globalThis.Fbx = {
     Flex,
