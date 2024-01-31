@@ -1,5 +1,5 @@
-import { exit } from 'node:process';
-import { Flex, JustifyContent, AlignItems } from '../src/index.js';
+import { exit } from "node:process";
+import { Flex, JustifyContent, AlignItems } from "./flex.js";
 
 // Item interface
 class Item {

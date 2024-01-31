@@ -2,7 +2,7 @@ import esbuild from 'esbuild';
 
 let ctx = await esbuild.context({
     entryPoints: [
-        { out: "flex", in: "src/index.js" }
+        { out: "flex", in: "src/index.ts" }
     ],
     bundle: true,
     platform:"neutral",

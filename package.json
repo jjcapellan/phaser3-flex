@@ -6,10 +6,12 @@
   "browser": "dist/flex.min.js",
   "type": "module",
   "scripts": {
-    "build": "node ./scripts/build.js",
+    "build": "npm run test && npm run types && node ./scripts/build.js",
     "dev": "node ./scripts/dev.js",
     "docs": "jsdoc2md src/flex.js src/constants.js > api.md",
-    "test": "node ./test/test.js"
+    "checktypes": "tsc --noemit",
+    "types": "tsc --declaration --emitDeclarationOnly --outFile ./dist/flex.d.ts",
+    "test": "npm run checktypes && node ./scripts/buildtest.js && node ./test/test.js"
   },
   "keywords": [
     "phaser",
@@ -23,6 +25,7 @@
   "devDependencies": {
     "esbuild": "^0.17.19",
     "jsdoc-to-markdown": "^8.0.0",
-    "phaser": "^3.70.0"
+    "phaser": "^3.70.0",
+    "typescript": "^5.3.3"
   }
 }

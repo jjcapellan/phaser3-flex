@@ -1,4 +1,5 @@
-import { Alignment, AlignItems, FlexDirection, JustifyContent } from "./constants.js";
+import { Alignment, AlignItems, FlexDirection, Item, JustifyContent } from "./sharedtypes";
+import { Flex } from "./flex";
 
 const SetPosName = {
     width: "setX",
@@ -7,10 +8,10 @@ const SetPosName = {
 
 /**
  * Sets cross axis center alignment
- * @param {object} f Flex object.
- * @param {string} dim Dimension: "width" if row dir. and "height" if column dir.
+ * @param f Flex object.
+ * @param dim Dimension: "width" if row dir. and "height" if column dir.
  */
-function alignCrossCenter(f, dim) {
+function alignCrossCenter(f: Flex, dim: string) {
     const setPos = SetPosName[dim];
     const bound = dim == "width" ? getLeft(f) : getTop(f);
     const center = f[dim] / 2 + bound;
@@ -24,7 +25,7 @@ function alignCrossCenter(f, dim) {
 }
 
 // This function affects only to flex items
-function alignCrossStretch(f, dim) {
+function alignCrossStretch(f: Flex, dim: string) {
     const setPos = SetPosName[dim];
     const bound = dim == "width" ? getLeft(f) : getTop(f);
     let maxSize = f[dim] - 2 * f.padding;
@@ -50,16 +51,16 @@ function alignCrossStretch(f, dim) {
         } else {
             f._heights[index] = item[dim];
         }
-        const size = dim == "width" ? [maxSize, item.height] : [item.width, maxSize];
+        const size: [number, number] = dim == "width" ? [maxSize, item.height] : [item.width, maxSize];
         setItemDisplaySize(item, ...size);
     });
 }
 
-function isMainAxis(dim, dir) {
+function isMainAxis(dim: string, dir: FlexDirection) {
     return (dim == "width" && dir == FlexDirection.ROW) || (dim == "height" && dir == FlexDirection.COLUMN);
 }
 
-function alignEnd(f, dim) {
+function alignEnd(f: Flex, dim: string) {
     const items = f.items;
     const setPos = SetPosName[dim];
     let position = f._bounds[dim == "width" ? "right" : "bottom"];
@@ -79,7 +80,7 @@ function alignEnd(f, dim) {
  * @param {object} f Flex object.
  * @param {string} dim Dimension: "width" if row dir. and "height" if column dir.
  */
-function alignMainCenter(f, dim) {
+function alignMainCenter(f: Flex, dim: string) {
     const setPos = SetPosName[dim];
     const bound = dim == "width" ? getLeft(f) : getTop(f);
     const itemsSize = getItemsSize(f);
@@ -93,7 +94,7 @@ function alignMainCenter(f, dim) {
     });
 }
 
-function alignStart(f, dim) {
+function alignStart(f: Flex, dim: string) {
     const setPos = SetPosName[dim];
     let position = f._bounds[dim == "width" ? "left" : "top"];
 
@@ -106,7 +107,7 @@ function alignStart(f, dim) {
     });
 }
 
-function checkDimension(f, dim, value) {
+function checkDimension(f: Flex, dim: string, value: number) {
     const totalDimension = value + f.padding * 2;
     if (totalDimension > f[dim]) {
         f[dim] = totalDimension;
@@ -114,11 +115,11 @@ function checkDimension(f, dim, value) {
     updateBounds(f);
 }
 
-function checkHeight(f, height) {
+function checkHeight(f: Flex, height: number) {
     checkDimension(f, "height", height);
 }
 
-function checkWidth(f, width) {
+function checkWidth(f: Flex, width: number) {
     checkDimension(f, "width", width);
 }
 
@@ -136,55 +137,55 @@ function fill(f, dim) {
     });
 }
 
-function fillH(f) {
+function fillH(f: Flex) {
     fill(f, "width");
 }
 
-function fillV(f) {
+function fillV(f: Flex) {
     fill(f, "height");
 }
 
-function fitDimension(f, dim) {
+function fitDimension(f: Flex, dim: string) {
     const max = f[`_${dim}s`].length ? Math.max(...f[`_${dim}s`]) : 0;
     f[dim] = max + 2 * f.padding;
     updateBounds(f);
 }
 
-function fitHeight(f) {
+function fitHeight(f: Flex) {
     fitDimension(f, "height");
 }
 
-function fitTextToColumn(f, item) {
+function fitTextToColumn(f: Flex, item: Item) {
     let w = f.width - f.padding * 2;
     item.setWordWrapWidth(w);
     let b = item.getBounds();
     item.setFixedSize(w, b.height);
 }
 
-function fitWidth(f) {
+function fitWidth(f: Flex) {
     fitDimension(f, "width");
 }
 
-function getFreeSpace(f) {
+function getFreeSpace(f: Flex) {
     const dim = f.flexDirection == FlexDirection.ROW ? f.width : f.height;
     return dim - getItemsSize(f) - 2 * f.padding;
 }
 
-function getItemsSize(f) {
+function getItemsSize(f: Flex) {
     const paddingsSum = (f.items.length - 1) * f.itemsMargin;
     return f._basisSum + paddingsSum;
 }
 
-function getLeft(f) {
+function getLeft(f: Flex) {
     return f.x - f.width * f.origin.x;
 
 }
 
-function getTop(f) {
+function getTop(f: Flex) {
     return f.y - f.height * f.origin.y;
 }
 
-function resetHeights(f) {
+function resetHeights(f: Flex) {
     for (let i = 0; i < f.items.length; i++) {
         let item = f.items[i];
         setItemDisplaySize(item, item.width, f._heights[i]);
@@ -192,7 +193,7 @@ function resetHeights(f) {
     }
 }
 
-function resetWidths(f) {
+function resetWidths(f: Flex) {
     for (let i = 0; i < f.items.length; i++) {
         let item = f.items[i];
         setItemDisplaySize(item, f._widths[i], item.height);
@@ -200,7 +201,7 @@ function resetWidths(f) {
     }
 }
 
-function restoreFitContent(f) {
+function restoreFitContent(f: Flex) {
     f.items.forEach(item => {
         if (item._isFlex) {
             item.fitContent = item._fitContent;
@@ -208,7 +209,7 @@ function restoreFitContent(f) {
     });
 }
 
-function setAlignH(f, alignment) {
+function setAlignH(f: Flex, alignment: Alignment) {
 
     if (alignment == Alignment.STRETCH) {
         alignCrossStretch(f, "width");
@@ -253,7 +254,7 @@ function setAlignH(f, alignment) {
 
 } // End setHAlign()
 
-function setAlignV(f, alignment) {
+function setAlignV(f: Flex, alignment: Alignment) {
 
     if (alignment == Alignment.STRETCH) {
         alignCrossStretch(f, "height");
@@ -263,7 +264,7 @@ function setAlignV(f, alignment) {
     if (f.flexDirection == FlexDirection.COLUMN) {
         let freeSpace = getFreeSpace(f);
         if (!f.fitContent && ((f._growSum && freeSpace >= 0) || freeSpace < 0)) {
-            fillV();
+            fillV(f);
             return;
         }
     }
@@ -297,7 +298,7 @@ function setAlignV(f, alignment) {
 
 }// End setVAlign()
 
-function setItemDisplaySize(item, width, height) {
+function setItemDisplaySize(item: Item, width: number, height: number) {
     if (item["type"] == "Text") {
         // Not allow to change text bounds height
         if (item.height != height) {
@@ -316,7 +317,7 @@ function setItems(f) {
     f.setAlignItems(f.alignItems);
 }
 
-function setItemSize(f, item, freeSpace) {
+function setItemSize(f: Flex, item: Item, freeSpace: number) {
 
     const isRow = f.flexDirection == FlexDirection.ROW;
 
@@ -341,7 +342,7 @@ function setItemSize(f, item, freeSpace) {
     item[dim] = dimValue;
 }
 
-function setJustify(f) {
+function setJustify(f: Flex) {
     const dim = f.flexDirection == FlexDirection.ROW ? "width" : "height";
     const setPos = SetPosName[dim];
     let freeSpace = getFreeSpace(f);
@@ -363,7 +364,7 @@ function setJustify(f) {
     });
 }
 
-function updateBounds(f) {
+function updateBounds(f: Flex) {
     let x = getLeft(f);
     let y = getTop(f);
 

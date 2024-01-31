@@ -1,5 +1,5 @@
-import { Flex } from "./flex.js";
-import { AlignItems, FlexDirection, JustifyContent } from "./constants.js";
+import { Flex } from "./flex";
+import { AlignItems, FlexDirection, JustifyContent } from "./sharedtypes";
 
 if (typeof window != "undefined") {
     globalThis.Fbx = {
