@@ -77,8 +77,12 @@ class Flex {
      */
     fitContent: boolean;
 
+    flexGrow: number;
+    flexShrink: number;
+
     _fitContent: boolean;
     _fparent: Flex;
+    ff: Flex;
     _scrollFactorX: number;
     _scrollFactorY: number;
     _isFlex: boolean;
@@ -89,19 +93,19 @@ class Flex {
     _bounds: { left: number, right: number, top: number, bottom: number };
 
     constructor(config: Config) {
-        
-        this.x = config.x || 0;        
-        this.y = config.y || 0;        
-        this.width = config.width || 0;        
-        this.height = config.height || 0;        
-        this.padding = config.padding || 10;        
-        this.itemsMargin = config.itemsMargin || 4;        
-        this.alignItems = config.alignItems || AlignItems.CENTER;        
-        this.flexDirection = config.flexDirection || FlexDirection.ROW;        
+
+        this.x = config.x || 0;
+        this.y = config.y || 0;
+        this.width = config.width || 0;
+        this.height = config.height || 0;
+        this.padding = config.padding || 10;
+        this.itemsMargin = config.itemsMargin || 4;
+        this.alignItems = config.alignItems || AlignItems.CENTER;
+        this.flexDirection = config.flexDirection || FlexDirection.ROW;
         this.justifyContent = config.justifyContent || JustifyContent.FLEX_START;
-        
-        this.items = [];        
-        this.fitContent = false;        
+
+        this.items = [];
+        this.fitContent = false;
         this.origin = { x: 0, y: 0 };
 
         this._scrollFactorX = 0;
@@ -139,10 +143,10 @@ class Flex {
         item.setOrigin(0, 0);
         item.setScrollFactor(this._scrollFactorX, this._scrollFactorY);
 
-        if (item._isFlex) {
+        if (item["_isFlex"]) {
             item.flexGrow = flexGrow;
             item.flexShrink = flexShrink;
-            item._fparent = this;
+            item["_fparent"] = this;
         } else {
             item.flexGrow = 0;
             item.flexShrink = 0;
@@ -189,8 +193,8 @@ class Flex {
      */
     clear(): Flex {
         this.items.forEach(item => {
-            if (item._isFlex) {
-                item.clear();
+            if (item["_isFlex"]) {
+                item["clear"]();
             }
         });
         this.items.forEach(item => item.destroy());
@@ -214,7 +218,7 @@ class Flex {
             return;
         }
         let item = this.items[index];
-        item._fparent = null;
+        item["_fparent"] = null;
         this._basisSum -= item.basis;
         this.items.splice(index, 1);
         this._heights.splice(index, 1);

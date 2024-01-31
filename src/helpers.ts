@@ -1,3 +1,4 @@
+/// <reference path="../node_modules/phaser/types/phaser.d.ts" />
 import { Alignment, AlignItems, FlexDirection, Item, JustifyContent } from "./sharedtypes";
 import { Flex } from "./flex";
 
@@ -32,11 +33,11 @@ function alignCrossStretch(f: Flex, dim: string) {
     let position = bound + f.padding;
 
     f.items.forEach(item => {
-        if (!item._isFlex) return;
+        if (!item["_isFlex"]) return;
 
-        if (item.fitContent && f.flexDirection != item.flexDirection) {
-            item._fitContent = item.fitContent;
-            item.fitContent = false;
+        if (item["fitContent"] && f.flexDirection != item["flexDirection"]) {
+            item["_fitContent"] = item["fitContent"];
+            item["fitContent"] = false;
         }
         item[setPos](position);
         if (item[dim] > maxSize) {
@@ -45,7 +46,7 @@ function alignCrossStretch(f: Flex, dim: string) {
     });
 
     f.items.forEach((item, index) => {
-        if (!item._isFlex) return;
+        if (!item["_isFlex"]) return;
         if (dim == "width") {
             f._widths[index] = item[dim];
         } else {
@@ -157,9 +158,9 @@ function fitHeight(f: Flex) {
 
 function fitTextToColumn(f: Flex, item: Item) {
     let w = f.width - f.padding * 2;
-    item.setWordWrapWidth(w);
-    let b = item.getBounds();
-    item.setFixedSize(w, b.height);
+    item["setWordWrapWidth"](w);
+    let b = item["getBounds"]();
+    item["setFixedSize"](w, b.height);
 }
 
 function fitWidth(f: Flex) {
@@ -203,8 +204,8 @@ function resetWidths(f: Flex) {
 
 function restoreFitContent(f: Flex) {
     f.items.forEach(item => {
-        if (item._isFlex) {
-            item.fitContent = item._fitContent;
+        if (item["_isFlex"]) {
+            item["fitContent"] = item["_fitContent"];
         }
     });
 }
