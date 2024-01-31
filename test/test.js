@@ -132,6 +132,18 @@ if (item1.pos().y != 35 || item2.pos().y != 30) {
     fail();
 }
 
+// TEST 10
+let height = flex.height;
+flex.remove(1, false);
+if (flex.height != (height - (item2.height - item1.height))) {
+    console.log("*** Test 10 failed ***");
+    console.log(`flex.height = ${flex.height}  item2.height = ${item2.height}`);
+    console.log(`Previus flex.height = ${height}`);
+    fail();
+}
+
+
+
 
 
 console.log('****** TEST PASSED ******');
