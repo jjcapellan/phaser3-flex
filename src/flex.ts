@@ -15,7 +15,6 @@ import {
     getItemsSize,
     resetHeights,
     resetWidths,
-    restoreFitContent,
     setAlignH,
     setAlignV,
     setItems,
@@ -72,17 +71,12 @@ class Flex {
      * Original size of this object in the main axis. 
      */
     basis: number;
-    /**
-     * Should cross axis size fit to content?
-     */
-    fitContent: boolean;
 
     scene: Phaser.Scene;
 
     flexGrow: number;
     flexShrink: number;
 
-    _fitContent: boolean;
     _fparent: Flex;
     ff: Flex;
     _scrollFactorX: number;
@@ -108,7 +102,6 @@ class Flex {
         this.justifyContent = config.justifyContent || JustifyContent.FLEX_START;
 
         this.items = [];
-        this.fitContent = false;
         this.origin = { x: 0, y: 0 };
 
         this._scrollFactorX = 0;
@@ -120,15 +113,6 @@ class Flex {
         this._widths = [];
         this._growSum = 0;
         this._bounds = { left: 0, right: 0, top: 0, bottom: 0 };
-
-
-        if ((this.flexDirection == FlexDirection.ROW && this.width == 0) ||
-            (this.flexDirection == FlexDirection.COLUMN && !this.height)) {
-            // Size changes if new items are added or removed
-            this.fitContent = true;
-        }
-        // Used to restore value of fitContent after stretch alignment in cross axis
-        this._fitContent = this.fitContent;
 
         return this;
     }
@@ -168,16 +152,12 @@ class Flex {
 
         if (this.flexDirection == FlexDirection.ROW) {
             checkHeight(this, item.height);
-            if (this.fitContent) {
-                checkWidth(this, getItemsSize(this));
-            }
+            checkWidth(this, getItemsSize(this));
         }
 
         if (this.flexDirection == FlexDirection.COLUMN) {
             checkWidth(this, item.width);
-            if (this.fitContent) {
-                checkHeight(this, getItemsSize(this));
-            }
+            checkHeight(this, getItemsSize(this));
         }
 
         setItems(this);
@@ -285,7 +265,6 @@ class Flex {
             } else {
                 resetWidths(this);
             }
-            restoreFitContent(this);
         }
 
         this.alignItems = alignItems;
@@ -328,27 +307,7 @@ class Flex {
         }
 
         return this;
-    }
-
-    /**
-     * Sets the *fitContent* of this object.
-     * 
-     * @param fitToContent 
-     * @returns This Flex instance.
-     */
-    setFitContent(fitToContent: boolean): Flex {
-        this.fitContent = fitToContent;
-        if (fitToContent) {
-            if (this.flexDirection == FlexDirection.ROW) {
-                let newWidth = getItemsSize(this) + 2 * this.padding;
-                this.setWidth(newWidth);
-            } else {
-                let newHeight = getItemsSize(this) + 2 * this.padding;
-                this.setHeight(newHeight);
-            }
-        }
-        return this;
-    }
+    }    
 
     /**
      * Sets the *height* of this object.

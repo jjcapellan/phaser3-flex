@@ -35,10 +35,6 @@ function alignCrossStretch(f: Flex, dim: string) {
     f.items.forEach(item => {
         if (!item["_isFlex"]) return;
 
-        if (item["fitContent"] && f.flexDirection != item["flexDirection"]) {
-            item["_fitContent"] = item["fitContent"];
-            item["fitContent"] = false;
-        }
         item[setPos](position);
         if (item[dim] > maxSize) {
             maxSize = item[dim];
@@ -202,14 +198,6 @@ function resetWidths(f: Flex) {
     }
 }
 
-function restoreFitContent(f: Flex) {
-    f.items.forEach(item => {
-        if (item["_isFlex"]) {
-            item["fitContent"] = item["_fitContent"];
-        }
-    });
-}
-
 function setAlignH(f: Flex, alignment: Alignment) {
 
     if (alignment == Alignment.STRETCH) {
@@ -219,7 +207,7 @@ function setAlignH(f: Flex, alignment: Alignment) {
 
     if (f.flexDirection == FlexDirection.ROW) {
         let freeSpace = getFreeSpace(f);
-        if (!f.fitContent && ((f._growSum && freeSpace >= 0) || freeSpace < 0)) {
+        if ((f._growSum && freeSpace >= 0) || freeSpace < 0) {
             fillH(f);
             return;
         }
@@ -264,7 +252,7 @@ function setAlignV(f: Flex, alignment: Alignment) {
 
     if (f.flexDirection == FlexDirection.COLUMN) {
         let freeSpace = getFreeSpace(f);
-        if (!f.fitContent && ((f._growSum && freeSpace >= 0) || freeSpace < 0)) {
+        if ((f._growSum && freeSpace >= 0) || freeSpace < 0) {
             fillV(f);
             return;
         }
@@ -386,7 +374,6 @@ export {
     getItemsSize,
     resetHeights,
     resetWidths,
-    restoreFitContent,
     setAlignH,
     setAlignV,
     setItems,
