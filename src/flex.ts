@@ -77,6 +77,8 @@ class Flex {
      */
     fitContent: boolean;
 
+    scene: Phaser.Scene;
+
     flexGrow: number;
     flexShrink: number;
 
@@ -92,11 +94,12 @@ class Flex {
     _growSum: number;
     _bounds: { left: number, right: number, top: number, bottom: number };
 
-    constructor(config: Config) {
+    constructor(scene: Phaser.Scene, config: Config) {
 
+        this.scene = scene;
         this.x = config.x || 0;
         this.y = config.y || 0;
-        this.width = config.width || 0;
+        this.width = config.width == undefined ? scene.scale.width : config.width;
         this.height = config.height || 0;
         this.padding = config.padding || 10;
         this.itemsMargin = config.itemsMargin || 4;
@@ -119,7 +122,7 @@ class Flex {
         this._bounds = { left: 0, right: 0, top: 0, bottom: 0 };
 
 
-        if ((this.flexDirection == FlexDirection.ROW && !this.width) ||
+        if ((this.flexDirection == FlexDirection.ROW && this.width == 0) ||
             (this.flexDirection == FlexDirection.COLUMN && !this.height)) {
             // Size changes if new items are added or removed
             this.fitContent = true;

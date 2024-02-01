@@ -59,25 +59,25 @@ export default class Demo extends Phaser.Scene {
         });
 
         tasks.push({
-            text: 'let flex1 = new Fbx.Flex({ x: 40, y: centerY, width: 760, height: 280})',
+            text: 'let flex1 = new Fbx.Flex(this, { x: 40, y: centerY, width: 760, height: 280})',
             fn: () => {
-                flex1 = new Fbx.Flex({ x: 40, y: cy, width: 760, height: 280 });
+                flex1 = new Fbx.Flex(this, { x: 40, y: cy, width: 760, height: 280 });
                 flexObjects.push(flex1);
             }
         });
 
         tasks.push({
-            text: 'let flex2 = new Fbx.Flex({ width: 120 })',
+            text: 'let flex2 = new Fbx.Flex(this, { width: 120 })',
             fn: () => {
-                flex2 = new Fbx.Flex({ width: 120 });
+                flex2 = new Fbx.Flex(this, { width: 120 });
                 flexObjects.push(flex2);
             }
         });
 
         tasks.push({
-            text: 'let flex3 = new Fbx.Flex({ width: 120 })',
+            text: 'let flex3 = new Fbx.Flex(this, { width: 120 })',
             fn: () => {
-                flex3 = new Fbx.Flex({ width: 120 });
+                flex3 = new Fbx.Flex(this, { width: 120 });
                 flexObjects.push(flex3);
             }
         });
@@ -175,9 +175,9 @@ export default class Demo extends Phaser.Scene {
         });
 
         tasks.push({
-            text: 'flex1 = new Fbx.Flex({x:centerX, y:centerY, width:200, flexDirection:Fbx.FlexDirection.COLUMN})',
+            text: 'flex1 = new Fbx.Flex(this, {x:centerX, y:centerY, width:200, flexDirection:Fbx.FlexDirection.COLUMN})',
             fn: () => {
-                flex1 = new Fbx.Flex({ x: cx, y: cy, width: 200, flexDirection: Fbx.FlexDirection.COLUMN });
+                flex1 = new Fbx.Flex(this, { x: cx, y: cy, width: 200, flexDirection: Fbx.FlexDirection.COLUMN });
                 flexObjects.push(flex1);
             }
         });

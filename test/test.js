@@ -1,5 +1,14 @@
+/// <reference path="../node_modules/phaser/types/phaser.d.ts" />
 import { exit } from "node:process";
 import { Flex, JustifyContent, AlignItems } from "./flex.js";
+
+// Scene
+const scene = {
+    scale: {
+        width: 800,
+        height: 600
+    }
+};
 
 // Item interface
 class Item {
@@ -52,7 +61,9 @@ const item1 = new Item(0, 0, 10, 10);
 const item2 = new Item(0, 0, 10, 20);
 
 // Horizontal Flex object
-let flex = new Flex({ x: 10, y: 10, width: 100 });
+let flex = new Flex(scene, { x: 10, y: 10, width: 100 });
+let flex1 = new Flex(scene, {});
+console.log(flex1);
 flex.add(item1).add(item2);
 
 // TEST 1 (padding = 10 ; itemMargin = 4 ; justify = FLEX_START ; alignment = CENTER)
