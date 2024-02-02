@@ -161,7 +161,6 @@ class Flex {
 
         setItems(this);
 
-        // This line forces items update in parent
         if (this._fparent) {
             if (this._fparent.flexDirection == FlexDirection.ROW) {
                 checkHeight(this._fparent, this.height);
