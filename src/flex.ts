@@ -152,12 +152,12 @@ class Flex {
 
         if (this.flexDirection == FlexDirection.ROW) {
             checkHeight(this, item.height);
-            //checkWidth(this, getItemsSize(this));
+            if (!item["_isFlex"]) checkWidth(this, getItemsSize(this));
         }
 
         if (this.flexDirection == FlexDirection.COLUMN) {
             checkWidth(this, item.width);
-            //checkHeight(this, getItemsSize(this));
+            if (!item["_isFlex"]) checkHeight(this, getItemsSize(this));
         }
 
         setItems(this);
