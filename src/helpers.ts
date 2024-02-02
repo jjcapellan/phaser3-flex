@@ -1,5 +1,5 @@
 /// <reference path="../node_modules/phaser/types/phaser.d.ts" />
-import { Alignment, AlignItems, FlexDirection, Item, JustifyContent } from "./sharedtypes";
+import { Alignment, FlexDirection, Item, JustifyContent } from "./sharedtypes";
 import { Flex } from "./flex";
 
 const SetPosName = {
