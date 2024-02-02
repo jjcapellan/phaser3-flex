@@ -41,19 +41,15 @@ function alignCrossStretch(f, dim) {
   let maxSize = f[dim] - 2 * f.padding;
   let position = bound + f.padding;
   f.items.forEach((item) => {
-    if (!item._isFlex)
+    if (!item["_isFlex"])
       return;
-    if (item.fitContent && f.flexDirection != item.flexDirection) {
-      item._fitContent = item.fitContent;
-      item.fitContent = false;
-    }
     item[setPos](position);
     if (item[dim] > maxSize) {
       maxSize = item[dim];
     }
   });
   f.items.forEach((item, index) => {
-    if (!item._isFlex)
+    if (!item["_isFlex"])
       return;
     if (dim == "width") {
       f._widths[index] = item[dim];
@@ -143,9 +139,9 @@ function fitHeight(f) {
 }
 function fitTextToColumn(f, item) {
   let w = f.width - f.padding * 2;
-  item.setWordWrapWidth(w);
-  let b = item.getBounds();
-  item.setFixedSize(w, b.height);
+  item["setWordWrapWidth"](w);
+  let b = item["getBounds"]();
+  item["setFixedSize"](w, b.height);
 }
 function fitWidth(f) {
   fitDimension(f, "width");
@@ -178,13 +174,6 @@ function resetWidths(f) {
     item.width = f._widths[i];
   }
 }
-function restoreFitContent(f) {
-  f.items.forEach((item) => {
-    if (item._isFlex) {
-      item.fitContent = item._fitContent;
-    }
-  });
-}
 function setAlignH(f, alignment) {
   if (alignment == 6 /* STRETCH */) {
     alignCrossStretch(f, "width");
@@ -192,7 +181,7 @@ function setAlignH(f, alignment) {
   }
   if (f.flexDirection == 2 /* ROW */) {
     let freeSpace = getFreeSpace(f);
-    if (!f.fitContent && (f._growSum && freeSpace >= 0 || freeSpace < 0)) {
+    if (f._growSum && freeSpace >= 0 || freeSpace < 0) {
       fillH(f);
       return;
     }
@@ -229,7 +218,7 @@ function setAlignV(f, alignment) {
   }
   if (f.flexDirection == 1 /* COLUMN */) {
     let freeSpace = getFreeSpace(f);
-    if (!f.fitContent && (f._growSum && freeSpace >= 0 || freeSpace < 0)) {
+    if (f._growSum && freeSpace >= 0 || freeSpace < 0) {
       fillV(f);
       return;
     }
@@ -373,12 +362,11 @@ var Flex = class {
    * Original size of this object in the main axis. 
    */
   basis;
-  /**
-   * Should cross axis size fit to content?
-   */
-  fitContent;
-  _fitContent;
+  scene;
+  flexGrow;
+  flexShrink;
   _fparent;
+  ff;
   _scrollFactorX;
   _scrollFactorY;
   _isFlex;
@@ -387,10 +375,11 @@ var Flex = class {
   _widths;
   _growSum;
   _bounds;
-  constructor(config) {
+  constructor(scene, config) {
+    this.scene = scene;
     this.x = config.x || 0;
     this.y = config.y || 0;
-    this.width = config.width || 0;
+    this.width = config.width == void 0 ? scene.scale.width : config.width;
     this.height = config.height || 0;
     this.padding = config.padding || 10;
     this.itemsMargin = config.itemsMargin || 4;
@@ -398,7 +387,6 @@ var Flex = class {
     this.flexDirection = config.flexDirection || 2 /* ROW */;
     this.justifyContent = config.justifyContent || 3 /* FLEX_START */;
     this.items = [];
-    this.fitContent = false;
     this.origin = { x: 0, y: 0 };
     this._scrollFactorX = 0;
     this._scrollFactorY = 0;
@@ -409,10 +397,6 @@ var Flex = class {
     this._widths = [];
     this._growSum = 0;
     this._bounds = { left: 0, right: 0, top: 0, bottom: 0 };
-    if (this.flexDirection == 2 /* ROW */ && !this.width || this.flexDirection == 1 /* COLUMN */ && !this.height) {
-      this.fitContent = true;
-    }
-    this._fitContent = this.fitContent;
     return this;
   }
   /**
@@ -427,10 +411,10 @@ var Flex = class {
   add(item, flexGrow = 0, flexShrink = 1) {
     item.setOrigin(0, 0);
     item.setScrollFactor(this._scrollFactorX, this._scrollFactorY);
-    if (item._isFlex) {
+    if (item["_isFlex"]) {
       item.flexGrow = flexGrow;
       item.flexShrink = flexShrink;
-      item._fparent = this;
+      item["_fparent"] = this;
     } else {
       item.flexGrow = 0;
       item.flexShrink = 0;
@@ -446,19 +430,23 @@ var Flex = class {
     this._growSum += item.flexGrow;
     if (this.flexDirection == 2 /* ROW */) {
       checkHeight(this, item.height);
-      if (this.fitContent) {
+      if (!item["_isFlex"])
         checkWidth(this, getItemsSize(this));
-      }
     }
     if (this.flexDirection == 1 /* COLUMN */) {
       checkWidth(this, item.width);
-      if (this.fitContent) {
+      if (!item["_isFlex"])
         checkHeight(this, getItemsSize(this));
-      }
     }
     setItems(this);
-    if (this._fparent)
-      this._fparent.setX(this._fparent.x);
+    if (this._fparent) {
+      if (this._fparent.flexDirection == 2 /* ROW */) {
+        checkHeight(this._fparent, this.height);
+      } else {
+        checkWidth(this._fparent, this.width);
+      }
+      setItems(this._fparent);
+    }
     return this;
   }
   /**
@@ -468,8 +456,8 @@ var Flex = class {
    */
   clear() {
     this.items.forEach((item) => {
-      if (item._isFlex) {
-        item.clear();
+      if (item["_isFlex"]) {
+        item["clear"]();
       }
     });
     this.items.forEach((item) => item.destroy());
@@ -491,7 +479,7 @@ var Flex = class {
       return;
     }
     let item = this.items[index];
-    item._fparent = null;
+    item["_fparent"] = null;
     this._basisSum -= item.basis;
     this.items.splice(index, 1);
     this._heights.splice(index, 1);
@@ -546,7 +534,6 @@ var Flex = class {
       } else {
         resetWidths(this);
       }
-      restoreFitContent(this);
     }
     this.alignItems = alignItems;
     switch (alignItems) {
@@ -580,25 +567,6 @@ var Flex = class {
         break;
       default:
         break;
-    }
-    return this;
-  }
-  /**
-   * Sets the *fitContent* of this object.
-   * 
-   * @param fitToContent 
-   * @returns This Flex instance.
-   */
-  setFitContent(fitToContent) {
-    this.fitContent = fitToContent;
-    if (fitToContent) {
-      if (this.flexDirection == 2 /* ROW */) {
-        let newWidth = getItemsSize(this) + 2 * this.padding;
-        this.setWidth(newWidth);
-      } else {
-        let newHeight = getItemsSize(this) + 2 * this.padding;
-        this.setHeight(newHeight);
-      }
     }
     return this;
   }

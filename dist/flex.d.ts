@@ -1,32 +1,23 @@
 declare module "sharedtypes" {
     export interface Item {
-        _fitContent: boolean;
-        _fparent?: Item;
-        _isFlex?: boolean;
         basis: number;
-        clear?: () => Item;
-        destroy: () => void;
-        fitContent?: boolean;
-        flexDirection?: number;
-        flexGrow?: number;
-        flexShrink?: number;
-        getBounds?: () => any;
+        flexGrow: number;
+        flexShrink: number;
         height: number;
         origin: {
             x: number;
             y: number;
         };
-        setDisplaySize: (x: number, y: number) => any;
-        setFixedSize?: (w: number, h: number) => any;
-        setOrigin: (x: number, y: number) => any;
-        setScrollFactor: (x: number, y: number) => any;
-        setWordWrapWidth?: (value: number) => any;
-        setX: (x: number) => any;
-        setY: (y: number) => any;
         type?: string;
         width: number;
         x: number;
         y: number;
+        destroy: () => void;
+        setDisplaySize: (x: number, y: number) => any;
+        setOrigin: (x: number, y: number) => any;
+        setScrollFactor: (x: number, y: number) => any;
+        setX: (x: number) => any;
+        setY: (y: number) => any;
     }
     export enum Alignment {
         BOTTOM = 1,
@@ -75,12 +66,11 @@ declare module "helpers" {
     function getItemsSize(f: Flex): number;
     function resetHeights(f: Flex): void;
     function resetWidths(f: Flex): void;
-    function restoreFitContent(f: Flex): void;
     function setAlignH(f: Flex, alignment: Alignment): void;
     function setAlignV(f: Flex, alignment: Alignment): void;
     function setItems(f: any): void;
     function setJustify(f: Flex): void;
-    export { checkHeight, checkWidth, fitHeight, fitTextToColumn, fitWidth, getItemsSize, resetHeights, resetWidths, restoreFitContent, setAlignH, setAlignV, setItems, setJustify };
+    export { checkHeight, checkWidth, fitHeight, fitTextToColumn, fitWidth, getItemsSize, resetHeights, resetWidths, setAlignH, setAlignV, setItems, setJustify };
 }
 declare module "flex" {
     import { AlignItems, Item, JustifyContent } from "sharedtypes";
@@ -137,12 +127,11 @@ declare module "flex" {
          * Original size of this object in the main axis.
          */
         basis: number;
-        /**
-         * Should cross axis size fit to content?
-         */
-        fitContent: boolean;
-        _fitContent: boolean;
+        scene: Phaser.Scene;
+        flexGrow: number;
+        flexShrink: number;
         _fparent: Flex;
+        ff: Flex;
         _scrollFactorX: number;
         _scrollFactorY: number;
         _isFlex: boolean;
@@ -156,7 +145,7 @@ declare module "flex" {
             top: number;
             bottom: number;
         };
-        constructor(config: Config);
+        constructor(scene: Phaser.Scene, config: Config);
         /**
          * Adds an item to the items list of this object. The position and size of this items
          * are managed by this object.
@@ -201,13 +190,6 @@ declare module "flex" {
          * @returns This Flex instance.
          */
         setAlignItems(alignItems: AlignItems): Flex;
-        /**
-         * Sets the *fitContent* of this object.
-         *
-         * @param fitToContent
-         * @returns This Flex instance.
-         */
-        setFitContent(fitToContent: boolean): Flex;
         /**
          * Sets the *height* of this object.
          *
