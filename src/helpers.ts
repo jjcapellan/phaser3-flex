@@ -120,7 +120,7 @@ function checkWidth(f: Flex, width: number) {
     checkDimension(f, "width", width);
 }
 
-function fill(f, dim) {
+function fill(f: Flex, dim: string) {
     const freeSpace = getFreeSpace(f);
     const setPos = SetPosName[dim];
 
