@@ -62,8 +62,6 @@ const item2 = new Item(0, 0, 10, 20);
 
 // Horizontal Flex object
 let flex = new Flex(scene, { x: 10, y: 10, width: 100 });
-let flex1 = new Flex(scene, {});
-console.log(flex1);
 flex.add(item1).add(item2);
 
 // TEST 1 (padding = 10 ; itemMargin = 4 ; justify = FLEX_START ; alignment = CENTER)
@@ -152,6 +150,37 @@ if (flex.height != (height - (item2.height - item1.height))) {
     console.log(`Previus flex.height = ${height}`);
     fail();
 }
+
+flex.remove(0, false);
+flex.destroy();
+
+// TEST 11 - nested flex objects
+let flex1 = new Flex(scene, { height: 100 });
+let flex1_1 = new Flex(scene, { height: 120 });
+let flex1_2 = new Flex(scene, { height: 80 });
+flex1.add(flex1_1, 2).add(flex1_2, 1);
+if (
+    flex1.height != (flex1_1.height + 2 * flex1.padding) ||
+    flex1.width != scene.scale.width ||
+    (flex1_1.width != 388 && flex1_1.x == 10) ||
+    (flex1_2.width != 388 && flex1_2.x == 402)
+) {
+    console.log("*** Test 11 failed ***");
+    console.log(flex1);
+    fail();
+}
+
+// TEST 12 - add object to nested flex, object.height > flex.height
+const item3 = new Item(0, 0, 20, 130);
+flex1_1.add(item3);
+if (flex1.height != 170) {
+    console.log("*** Test 12 failed ***");
+    console.log(flex1);
+    fail();
+}
+
+
+
 
 
 
