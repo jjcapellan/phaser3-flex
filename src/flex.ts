@@ -152,18 +152,25 @@ class Flex {
 
         if (this.flexDirection == FlexDirection.ROW) {
             checkHeight(this, item.height);
-            checkWidth(this, getItemsSize(this));
+            //checkWidth(this, getItemsSize(this));
         }
 
         if (this.flexDirection == FlexDirection.COLUMN) {
             checkWidth(this, item.width);
-            checkHeight(this, getItemsSize(this));
+            //checkHeight(this, getItemsSize(this));
         }
 
         setItems(this);
 
         // This line forces items update in parent
-        if (this._fparent) this._fparent.setX(this._fparent.x);
+        if (this._fparent) {
+            if (this._fparent.flexDirection == FlexDirection.ROW) {
+                checkHeight(this._fparent, this.height);
+            } else {
+                checkWidth(this._fparent, this.width);
+            }
+            setItems(this._fparent);
+        }
 
         return this;
 
@@ -307,7 +314,7 @@ class Flex {
         }
 
         return this;
-    }    
+    }
 
     /**
      * Sets the *height* of this object.
