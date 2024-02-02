@@ -78,7 +78,6 @@ class Flex {
     flexShrink: number;
 
     _fparent: Flex;
-    ff: Flex;
     _scrollFactorX: number;
     _scrollFactorY: number;
     _isFlex: boolean;
