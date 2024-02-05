@@ -131,7 +131,6 @@ declare module "flex" {
         flexGrow: number;
         flexShrink: number;
         _fparent: Flex;
-        ff: Flex;
         _scrollFactorX: number;
         _scrollFactorY: number;
         _isFlex: boolean;
@@ -139,6 +138,7 @@ declare module "flex" {
         _heights: number[];
         _widths: number[];
         _growSum: number;
+        _shrinkSum: number;
         _bounds: {
             left: number;
             right: number;

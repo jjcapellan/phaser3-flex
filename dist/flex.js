@@ -1,10 +1,10 @@
 // src/sharedtypes.ts
-var AlignItems = /* @__PURE__ */ ((AlignItems3) => {
-  AlignItems3[AlignItems3["CENTER"] = 1] = "CENTER";
-  AlignItems3[AlignItems3["FLEX_END"] = 2] = "FLEX_END";
-  AlignItems3[AlignItems3["FLEX_START"] = 3] = "FLEX_START";
-  AlignItems3[AlignItems3["STRETCH"] = 4] = "STRETCH";
-  return AlignItems3;
+var AlignItems = /* @__PURE__ */ ((AlignItems2) => {
+  AlignItems2[AlignItems2["CENTER"] = 1] = "CENTER";
+  AlignItems2[AlignItems2["FLEX_END"] = 2] = "FLEX_END";
+  AlignItems2[AlignItems2["FLEX_START"] = 3] = "FLEX_START";
+  AlignItems2[AlignItems2["STRETCH"] = 4] = "STRETCH";
+  return AlignItems2;
 })(AlignItems || {});
 var FlexDirection = /* @__PURE__ */ ((FlexDirection2) => {
   FlexDirection2[FlexDirection2["COLUMN"] = 1] = "COLUMN";
@@ -272,7 +272,8 @@ function setItemSize(f, item, freeSpace) {
     dimValue = item.flexGrow / f._growSum * freeSpace + item.basis;
   }
   if (freeSpace < 0) {
-    dimValue = item.flexShrink * item.basis / f._basisSum * freeSpace + item.basis;
+    const shrinkRatio = item.basis * item.flexShrink / f._shrinkSum;
+    dimValue = item.basis + freeSpace * shrinkRatio;
   }
   if (isRow) {
     setItemDisplaySize(item, dimValue, item.height);
@@ -366,7 +367,6 @@ var Flex = class {
   flexGrow;
   flexShrink;
   _fparent;
-  ff;
   _scrollFactorX;
   _scrollFactorY;
   _isFlex;
@@ -374,6 +374,7 @@ var Flex = class {
   _heights;
   _widths;
   _growSum;
+  _shrinkSum;
   _bounds;
   constructor(scene, config) {
     this.scene = scene;
@@ -396,6 +397,7 @@ var Flex = class {
     this._heights = [];
     this._widths = [];
     this._growSum = 0;
+    this._shrinkSum = 0;
     this._bounds = { left: 0, right: 0, top: 0, bottom: 0 };
     return this;
   }
@@ -428,6 +430,7 @@ var Flex = class {
     this._heights.push(item.height);
     this._widths.push(item.width);
     this._growSum += item.flexGrow;
+    this._shrinkSum += item.flexShrink * item.basis;
     if (this.flexDirection == 2 /* ROW */) {
       checkHeight(this, item.height);
       if (!item["_isFlex"])
