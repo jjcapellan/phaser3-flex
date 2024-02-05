@@ -5,12 +5,6 @@ import { Item, scene } from "./mocks.js";
 import { assert } from "./testutils.js";
 
 
-
-function fail() {
-    console.log('\n****** TEST FAILED ******');
-    exit(1);
-}
-
 let flex1, flex2, flex3, flex4;
 let item1, item2, item3, item4;
 let txtItem1, txtItem2;
