@@ -344,8 +344,51 @@ assert(
         { prop: "flexItem1.y", exp: flex1.y + flex1.padding, act: flex2.y },
         { prop: "flexItem1.width", exp: 100 + freeSpace * (1 / 3), act: flex2.width },
         { prop: "flexItem2.x", exp: flex1.x + flex1.padding + flex2.width + flex1.itemsMargin, act: flex3.x },
-        { prop: "flexItem2.y", exp: flex1.y + flex1.height/2 - flex3.height/2, act: flex3.y },
+        { prop: "flexItem2.y", exp: flex1.y + flex1.height / 2 - flex3.height / 2, act: flex3.y },
         { prop: "flexItem2.width", exp: 100 + freeSpace * (2 / 3), act: flex3.width }
+    ],
+    counter
+);
+
+// TEST 18 - Placement of 2 flex items (same width > flex.width, shrink factor -> 1 vs 1)
+flex1 = new Flex(scene, {});
+flex2 = new Flex(scene, {});
+flex3 = new Flex(scene, {});
+flex1.add(flex2, 1, 1).add(flex3, 1, 1);
+assert(
+    "Placement of 2 flex items (same width > flex.width, shrink factor -> 1 vs 1)",
+    [
+        { prop: "flex.x", exp: 0, act: flex1.x },
+        { prop: "flex.y", exp: 0, act: flex1.y },
+        { prop: "flex.width", exp: scene.scale.width, act: flex1.width },
+        { prop: "flex.height", exp: flex2.height + 2 * flex1.padding, act: flex1.height },
+        { prop: "flexItem1.x", exp: flex1.x + flex1.padding, act: flex2.x },
+        { prop: "flexItem1.y", exp: flex1.y + flex1.padding, act: flex2.y },
+        { prop: "flexItem1.width", exp: (flex1.width - 2 * flex1.padding - flex1.itemsMargin) / 2, act: flex2.width },
+        { prop: "flexItem2.x", exp: flex1.x + flex1.padding + flex2.width + flex1.itemsMargin, act: flex3.x },
+        { prop: "flexItem2.y", exp: flex1.y + flex1.padding, act: flex3.y },
+        { prop: "flexItem2.width", exp: (flex1.width - 2 * flex1.padding - flex1.itemsMargin) / 2, act: flex3.width },
+    ],
+    counter
+);
+
+// TEST 19 - Placement of 2 flex items (same width > flex.width, shrink factor -> 1 vs 2)
+flex1 = new Flex(scene, {});
+flex2 = new Flex(scene, {});
+flex3 = new Flex(scene, {});
+flex1.add(flex2, 1, 1).add(flex3, 1, 2);
+assert(
+    "Placement of 2 flex items (same width > flex.width, shrink factor -> 1 vs 2)",
+    [
+        { prop: "flex.x", exp: 0, act: flex1.x },
+        { prop: "flex.y", exp: 0, act: flex1.y },
+        { prop: "flex.width", exp: scene.scale.width, act: flex1.width },
+        { prop: "flex.height", exp: flex2.height + 2 * flex1.padding, act: flex1.height },
+        { prop: "flexItem1.x", exp: flex1.x + flex1.padding, act: flex2.x },
+        { prop: "flexItem1.y", exp: flex1.y + flex1.padding, act: flex2.y },
+        { prop: "flexItem1.width + flexItem2.width", exp: (flex1.width - 2 * flex1.padding - flex1.itemsMargin), act: Math.round(flex2.width + flex3.width) },
+        { prop: "flexItem2.x", exp: flex1.x + flex1.padding + flex2.width + flex1.itemsMargin, act: flex3.x },
+        { prop: "flexItem2.y", exp: flex1.y + flex1.padding, act: flex3.y }
     ],
     counter
 );
