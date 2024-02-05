@@ -387,6 +387,25 @@ assert(
     counter
 );
 
+// TEST 20 - Remove 1 of 2 items (default alignment)
+flex1 = new Flex(scene, {});
+item1 = new Item(0, 0, 10, 20);
+item2 = new Item(0, 0, 10, 10);
+flex1.add(item1).add(item2);
+flex1.remove(0, false);
+assert(
+    "Remove 1 of 2 items (default alignment)",
+    [
+        { prop: "flex.x", exp: 0, act: flex1.x },
+        { prop: "flex.y", exp: 0, act: flex1.y },
+        { prop: "flex.width", exp: scene.scale.width, act: flex1.width },
+        { prop: "flex.height", exp: item2.height + 2 * flex1.padding, act: flex1.height },
+        { prop: "item2.x", exp: flex1.x + flex1.padding, act: item2.x },
+        { prop: "item2.y", exp: flex1.y + flex1.padding, act: item2.y }
+    ],
+    counter
+);
+
 
 
 
