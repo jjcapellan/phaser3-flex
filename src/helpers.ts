@@ -319,7 +319,10 @@ function setItemSize(f: Flex, item: Item, freeSpace: number) {
     }
 
     if (freeSpace < 0) {
-        dimValue = ((item.flexShrink * item.basis) / f._basisSum) * freeSpace + item.basis;
+        //dimValue = ((item.flexShrink * item.basis) / f._basisSum) * freeSpace + item.basis;
+        // https://www.samanthaming.com/flexbox30/24-flex-shrink-calculation/
+        const shrinkRatio = (item.basis * item.flexShrink) / f._shrinkSum;
+        dimValue = item.basis + freeSpace * shrinkRatio;
     }
 
     if (isRow) {

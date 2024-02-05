@@ -85,6 +85,7 @@ class Flex {
     _heights: number[];
     _widths: number[];
     _growSum: number;
+    _shrinkSum: number;
     _bounds: { left: number, right: number, top: number, bottom: number };
 
     constructor(scene: Phaser.Scene, config: Config) {
@@ -111,6 +112,7 @@ class Flex {
         this._heights = [];
         this._widths = [];
         this._growSum = 0;
+        this._shrinkSum = 0;
         this._bounds = { left: 0, right: 0, top: 0, bottom: 0 };
 
         return this;
@@ -148,6 +150,7 @@ class Flex {
         this._heights.push(item.height);
         this._widths.push(item.width);
         this._growSum += item.flexGrow;
+        this._shrinkSum += item.flexShrink * item.basis;
 
         if (this.flexDirection == FlexDirection.ROW) {
             checkHeight(this, item.height);
