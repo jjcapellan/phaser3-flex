@@ -323,7 +323,7 @@ assert(
     counter
 );
 
-// TEST 17 - Placemen 2 populated flex objects (same width < flex.width, grow factor -> 1 vs 2)
+// TEST 17 - Placement 2 populated flex objects (same width < flex.width, grow factor -> 1 vs 2)
 flex1 = new Flex(scene, {});
 item2 = new Item(0, 0, 10, 20);
 item3 = new Item(0, 0, 10, 10);
@@ -334,7 +334,7 @@ flex3.add(item3);
 flex1.add(flex2, 1).add(flex3, 2);
 freeSpace = flex1.width - 2 * flex1.padding - flex1.itemsMargin - 200;
 assert(
-    "Placemen 2 populated flex objects (same width < flex.width, grow factor -> 1 vs 2)",
+    "Placement 2 populated flex objects (same width < flex.width, grow factor -> 1 vs 2)",
     [
         { prop: "flex.x", exp: 0, act: flex1.x },
         { prop: "flex.y", exp: 0, act: flex1.y },
