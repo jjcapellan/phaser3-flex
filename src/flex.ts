@@ -1,6 +1,7 @@
 import {
     AlignItems,
     Alignment,
+    Config,
     FlexDirection,
     Item,
     JustifyContent,
@@ -369,7 +370,7 @@ class Flex {
     /**
      * Sets the *width* of this object.
      * 
-     * @param height 
+     * @param width 
      * @returns This Flex instance.
      */
     setWidth(width: number): Flex {
@@ -520,20 +521,6 @@ class Flex {
     }
 }
 
-/**
- * Config options of Flex constructor 
- * @interface
- */
-interface Config {
-    x?: number,
-    y?: number,
-    width?: number,
-    height?: number,
-    padding?: number,
-    itemsMargin?: number,
-    alignItems?: number,
-    flexDirection?: number,
-    justifyContent?: number
-}
+
 
 export { Flex };
