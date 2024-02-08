@@ -1,5 +1,5 @@
 {
-  "name": "phaser3-fbx",
+  "name": "phaser3-flex",
   "version": "0.1.0",
   "description": "",
   "module": "dist/flex.js",
@@ -8,6 +8,7 @@
   "scripts": {
     "build": "npm run test && npm run types && node ./scripts/build.js",
     "dev": "node ./scripts/dev.js",
+    "docs": "typedoc src/index.ts",
     "checktypes": "tsc --noemit",
     "types": "tsc --declaration --emitDeclarationOnly --outFile ./dist/flex.d.ts",
     "test": "npm run checktypes && node ./scripts/buildtest.js && node ./test/test.js"
@@ -24,6 +25,7 @@
   "devDependencies": {
     "esbuild": "^0.17.19",
     "phaser": "^3.70.0",
+    "typedoc": "^0.25.7",
     "typescript": "^5.3.3"
   }
 }
