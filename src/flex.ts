@@ -77,17 +77,53 @@ class Flex {
     flexGrow: number;
     flexShrink: number;
 
+    /**
+     * @private
+     */
     _fparent: Flex;
+    /**
+     * @private
+     */
     _scrollFactorX: number;
+    /**
+     * @private
+     */
     _scrollFactorY: number;
+    /**
+     * @private
+     */
     _isFlex: boolean;
+    /**
+     * @private
+     */
     _basisSum: number;
+    /**
+     * @private
+     */
     _heights: number[];
+    /**
+     * @private
+     */
     _widths: number[];
+    /**
+     * @private
+     */
     _growSum: number;
+    /**
+     * @private
+     */
     _shrinkSum: number;
+    /**
+     * @private
+     */
     _bounds: { left: number, right: number, top: number, bottom: number };
 
+    /**
+     * Creates an instance of Flex class
+     * @param scene 
+     * @param config 
+     * @returns 
+     */
     constructor(scene: Phaser.Scene, config: Config) {
 
         this.scene = scene;
@@ -484,16 +520,20 @@ class Flex {
     }
 }
 
+/**
+ * Config options of Flex constructor 
+ * @interface
+ */
 interface Config {
-    x: number,
-    y: number,
-    width: number,
-    height: number,
-    padding: number,
-    itemsMargin: number,
-    alignItems: number,
-    flexDirection: number,
-    justifyContent: number
+    x?: number,
+    y?: number,
+    width?: number,
+    height?: number,
+    padding?: number,
+    itemsMargin?: number,
+    alignItems?: number,
+    flexDirection?: number,
+    justifyContent?: number
 }
 
 export { Flex };
