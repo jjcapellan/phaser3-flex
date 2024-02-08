@@ -7,8 +7,8 @@ export interface Item {
     type?: string,
     width: number,
     x: number,
-    y: number,    
-    destroy: () => void,    
+    y: number,
+    destroy: () => void,
     setDisplaySize: (x: number, y: number) => any,
     setOrigin: (x: number, y: number) => any,
     setScrollFactor: (x: number, y: number) => any,
@@ -50,4 +50,46 @@ export enum JustifyContent {
     FLEX_START,
     SPACE_AROUND,
     SPACE_BETWEEN
+}
+/**
+ * Config options of Flex constructor 
+ * @interface
+ */
+export interface Config {
+    /**
+     * {@link Flex.x}
+     */
+    x?: number,
+    /**
+     * {@link Flex.y}
+     */
+    y?: number,
+    /**
+     * {@link Flex.width}
+     */
+    width?: number,
+    /**
+     * {@link Flex.height}
+     */
+    height?: number,
+    /**
+     * {@link Flex.padding}
+     */
+    padding?: number,
+    /**
+     * {@link Flex.itemsMargin}
+     */
+    itemsMargin?: number,
+    /**
+     * {@link Flex.alignItems}
+     */
+    alignItems?: number,
+    /**
+     * {@link Flex.flexDirection}
+     */
+    flexDirection?: number,
+    /**
+     * {@link Flex.justifyContent}
+     */
+    justifyContent?: number
 }
