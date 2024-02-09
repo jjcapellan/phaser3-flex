@@ -406,6 +406,28 @@ assert(
     counter
 );
 
+// TEST 21 - Flex.update()
+flex1 = new Flex(scene, {});
+item1 = new Item(0, 0, 10, 10);
+item2 = new Item(0, 0, 10, 20);
+flex1.add(item1).add(item2).setJustifyContent(JustifyContent.SPACE_BETWEEN);
+item2.width = item2.width + 10;
+flex1.update();
+assert(
+    "Flex.update()",
+    [
+        { prop: "flex.x", exp: 0, act: flex1.x },
+        { prop: "flex.y", exp: 0, act: flex1.y },
+        { prop: "flex.width", exp: scene.scale.width, act: flex1.width },
+        { prop: "flex.height", exp: item2.height + 2 * flex1.padding, act: flex1.height },
+        { prop: "item1.x", exp: flex1.x + flex1.padding, act: item1.x },
+        { prop: "item1.y", exp: flex1.y + flex1.height / 2 - item1.height / 2, act: item1.y },
+        { prop: "item2.x", exp: flex1.x + flex1.width - flex1.padding - item2.width, act: item2.x },
+        { prop: "item2.y", exp: flex1.y + flex1.padding, act: item2.y }
+    ],
+    counter
+);
+
 
 
 
