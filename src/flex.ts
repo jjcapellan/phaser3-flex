@@ -520,7 +520,26 @@ class Flex {
         return this;
     }
 
+    /**
+     * Updates items positions. Should be used only if any item have changed its size.
+     */
     update() {
+
+        if (this.flexDirection == FlexDirection.ROW) {
+            this.items.forEach(item => {
+                if (item.basis != item.width) {
+                    this._basisSum += item.width - item.basis;
+                    item.basis = item.width;
+                }
+            });
+        } else {
+            this.items.forEach(item => {
+                if (item.basis != item.height) {
+                    this._basisSum += item.height - item.height;
+                    item.basis = item.height;
+                }
+            });
+        }
         setItems(this);
     }
 }
