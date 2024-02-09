@@ -525,11 +525,14 @@ class Flex {
      */
     update() {
 
+        let change = false;
+
         if (this.flexDirection == FlexDirection.ROW) {
             this.items.forEach(item => {
                 if (item.basis != item.width) {
                     this._basisSum += item.width - item.basis;
                     item.basis = item.width;
+                    change = true;
                 }
             });
         } else {
@@ -537,10 +540,12 @@ class Flex {
                 if (item.basis != item.height) {
                     this._basisSum += item.height - item.height;
                     item.basis = item.height;
+                    change = true;
                 }
             });
         }
-        setItems(this);
+
+        if (change) setItems(this);
     }
 }
 
