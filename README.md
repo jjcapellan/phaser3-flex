@@ -1,6 +1,7 @@
 # Phaser3 Flex
-This small library implements some CSS Flexbox features in JavaScript for use in Phaser.
-The "Flex" class object is a container inspired by the CSS Flexbox system, which facilitates the placement and alignment of objects (very useful for creating the GUI of our game).
+This small library implements some CSS Flexbox features in JavaScript for use in Phaser 3.
+The "Flex" object is a container inspired by the CSS Flexbox system, which facilitates the placement and alignment of objects (very useful for creating the GUI of our game).  
+**Important**: Still in early development phase.
 
 ## Main features:
 * 4 types of alignment regarding the cross-axis (*alignItems*): flexStart, center, flexEnd, stretch (only applicable to other flex objects).
@@ -10,7 +11,7 @@ The "Flex" class object is a container inspired by the CSS Flexbox system, which
 * *flexShrink* property: determines how the lacking space is removed (only applicable to flex objects).
 * Nested containers: a flex object can be inside other flex objects.
 
-Demo/tutorial: https://jjcapellan.github.io/phaser3-flex/  
+Demo: https://jjcapellan.github.io/phaser3-flex/  
 Api: https://jjcapellan.github.io/phaser3-flex/docs/
 
 ## Installation

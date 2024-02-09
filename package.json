@@ -1,7 +1,7 @@
 {
   "name": "phaser3-flex",
   "version": "0.1.0",
-  "description": "",
+  "description": "Flex containers for Phaser",
   "module": "dist/flex.js",
   "browser": "dist/flex.min.js",
   "type": "module",
