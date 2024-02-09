@@ -60,7 +60,7 @@ These are the container properties by default:
 
 We can change all or some of this properties at creation time:
 ```js
-const flexContainer = new Flex(scene, {padding: 6, justifyContent: JustifyContent.SPACE_BETWEEN});
+const flexContainer = new Flex(scene, { padding: 6, justifyContent: JustifyContent.SPACE_BETWEEN });
 ```
 Some properties can be changed after Flex object creation:
 ```js
@@ -69,3 +69,6 @@ flexContainer.setY(100);
 flexContainer.setWidth(400);
 // ...
 ```
+
+## License
+This library is licensed under the terms of the [MIT open source license](LICENSE).
