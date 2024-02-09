@@ -519,6 +519,10 @@ class Flex {
         setItems(this);
         return this;
     }
+
+    update() {
+        setItems(this);
+    }
 }
 
 
