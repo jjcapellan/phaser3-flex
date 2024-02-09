@@ -20,6 +20,10 @@
     "hud",
     "flexbox"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jjcapellan/phaser3-flex"
+  },
   "author": "Juan Jose Capellan",
   "license": "MIT",
   "devDependencies": {
