@@ -366,16 +366,52 @@ var Flex = class {
   scene;
   flexGrow;
   flexShrink;
+  /**
+   * @private
+   */
   _fparent;
+  /**
+   * @private
+   */
   _scrollFactorX;
+  /**
+   * @private
+   */
   _scrollFactorY;
+  /**
+   * @private
+   */
   _isFlex;
+  /**
+   * @private
+   */
   _basisSum;
+  /**
+   * @private
+   */
   _heights;
+  /**
+   * @private
+   */
   _widths;
+  /**
+   * @private
+   */
   _growSum;
+  /**
+   * @private
+   */
   _shrinkSum;
+  /**
+   * @private
+   */
   _bounds;
+  /**
+   * Creates an instance of Flex class
+   * @param scene 
+   * @param config 
+   * @returns 
+   */
   constructor(scene, config) {
     this.scene = scene;
     this.x = config.x || 0;
@@ -588,7 +624,7 @@ var Flex = class {
   /**
    * Sets the *width* of this object.
    * 
-   * @param height 
+   * @param width 
    * @returns This Flex instance.
    */
   setWidth(width) {
@@ -723,6 +759,31 @@ var Flex = class {
     this.y = y;
     setItems(this);
     return this;
+  }
+  /**
+   * Updates items positions. Should be used only if any item have changed its size.
+   */
+  update() {
+    let change = false;
+    if (this.flexDirection == 2 /* ROW */) {
+      this.items.forEach((item) => {
+        if (item.basis != item.width) {
+          this._basisSum += item.width - item.basis;
+          item.basis = item.width;
+          change = true;
+        }
+      });
+    } else {
+      this.items.forEach((item) => {
+        if (item.basis != item.height) {
+          this._basisSum += item.height - item.height;
+          item.basis = item.height;
+          change = true;
+        }
+      });
+    }
+    if (change)
+      setItems(this);
   }
 };
 

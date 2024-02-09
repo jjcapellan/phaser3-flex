@@ -54,6 +54,48 @@ declare module "sharedtypes" {
         SPACE_AROUND = 4,
         SPACE_BETWEEN = 5
     }
+    /**
+     * Config options of Flex constructor
+     * @interface
+     */
+    export interface Config {
+        /**
+         * {@link Flex.x}
+         */
+        x?: number;
+        /**
+         * {@link Flex.y}
+         */
+        y?: number;
+        /**
+         * {@link Flex.width}
+         */
+        width?: number;
+        /**
+         * {@link Flex.height}
+         */
+        height?: number;
+        /**
+         * {@link Flex.padding}
+         */
+        padding?: number;
+        /**
+         * {@link Flex.itemsMargin}
+         */
+        itemsMargin?: number;
+        /**
+         * {@link Flex.alignItems}
+         */
+        alignItems?: number;
+        /**
+         * {@link Flex.flexDirection}
+         */
+        flexDirection?: number;
+        /**
+         * {@link Flex.justifyContent}
+         */
+        justifyContent?: number;
+    }
 }
 declare module "helpers" {
     import { Alignment, Item } from "sharedtypes";
@@ -73,7 +115,7 @@ declare module "helpers" {
     export { checkHeight, checkWidth, fitHeight, fitTextToColumn, fitWidth, getItemsSize, resetHeights, resetWidths, setAlignH, setAlignV, setItems, setJustify };
 }
 declare module "flex" {
-    import { AlignItems, Item, JustifyContent } from "sharedtypes";
+    import { AlignItems, Config, Item, JustifyContent } from "sharedtypes";
     class Flex {
         /**
          * X position. (Default = 0)
@@ -130,21 +172,57 @@ declare module "flex" {
         scene: Phaser.Scene;
         flexGrow: number;
         flexShrink: number;
+        /**
+         * @private
+         */
         _fparent: Flex;
+        /**
+         * @private
+         */
         _scrollFactorX: number;
+        /**
+         * @private
+         */
         _scrollFactorY: number;
+        /**
+         * @private
+         */
         _isFlex: boolean;
+        /**
+         * @private
+         */
         _basisSum: number;
+        /**
+         * @private
+         */
         _heights: number[];
+        /**
+         * @private
+         */
         _widths: number[];
+        /**
+         * @private
+         */
         _growSum: number;
+        /**
+         * @private
+         */
         _shrinkSum: number;
+        /**
+         * @private
+         */
         _bounds: {
             left: number;
             right: number;
             top: number;
             bottom: number;
         };
+        /**
+         * Creates an instance of Flex class
+         * @param scene
+         * @param config
+         * @returns
+         */
         constructor(scene: Phaser.Scene, config: Config);
         /**
          * Adds an item to the items list of this object. The position and size of this items
@@ -200,7 +278,7 @@ declare module "flex" {
         /**
          * Sets the *width* of this object.
          *
-         * @param height
+         * @param width
          * @returns This Flex instance.
          */
         setWidth(width: number): Flex;
@@ -241,22 +319,15 @@ declare module "flex" {
          * @returns This Flex instance.
          */
         setY(y: number): Flex;
-    }
-    interface Config {
-        x: number;
-        y: number;
-        width: number;
-        height: number;
-        padding: number;
-        itemsMargin: number;
-        alignItems: number;
-        flexDirection: number;
-        justifyContent: number;
+        /**
+         * Updates items positions. Should be used only if any item have changed its size.
+         */
+        update(): void;
     }
     export { Flex };
 }
 declare module "index" {
     import { Flex } from "flex";
-    import { AlignItems, FlexDirection, JustifyContent } from "sharedtypes";
-    export { AlignItems, Flex, FlexDirection, JustifyContent };
+    import { AlignItems, Config, FlexDirection, JustifyContent } from "sharedtypes";
+    export { AlignItems, Config, Flex, FlexDirection, JustifyContent };
 }
