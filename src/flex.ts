@@ -275,7 +275,7 @@ class Flex {
      * @param height 
      * @returns This Flex instance. 
      */
-    setDisplaySize(width: number, height: number): Flex {
+    setSize(width: number, height: number): Flex {
         this.setWidth(width);
         this.setHeight(height);
 
