@@ -152,6 +152,8 @@ class Flex {
         this._shrinkSum = 0;
         this._bounds = { left: 0, right: 0, top: 0, bottom: 0 };
 
+        this.scene.events.once("destroy", this.destroy, this);
+
         return this;
     }
 
