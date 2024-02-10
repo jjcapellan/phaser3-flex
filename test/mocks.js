@@ -14,7 +14,7 @@ export class Item {
         this.y = y;
     }
 
-    setDisplaySize(width, height) {
+    setSize(width, height) {
         this.width = width;
         this.height = height;
     }

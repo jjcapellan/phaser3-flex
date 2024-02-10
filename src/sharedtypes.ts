@@ -9,7 +9,7 @@ export interface Item {
     x: number,
     y: number,
     destroy: () => void,
-    setDisplaySize: (x: number, y: number) => any,
+    setSize: (x: number, y: number) => any,
     setOrigin: (x: number, y: number) => any,
     setScrollFactor: (x: number, y: number) => any,
     setX: (x: number) => any,
