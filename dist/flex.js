@@ -117,7 +117,8 @@ function fill(f, dim) {
   const setPos = SetPosName[dim];
   let position = f._bounds[dim == "width" ? "left" : "top"];
   f.items.forEach((item) => {
-    setItemSize(f, item, freeSpace);
+    if (item["_isFlex"])
+      setItemSize(f, item, freeSpace);
     item.setOrigin(0, 0);
     item[setPos](position);
     position += item[dim] + f.itemsMargin;
@@ -257,7 +258,7 @@ function setItemDisplaySize(item, width, height) {
     item["setFixedSize"](width, height);
     return;
   }
-  item.setDisplaySize(width, height);
+  item.setSize(width, height);
 }
 function setItems(f) {
   updateBounds(f);
@@ -435,6 +436,7 @@ var Flex = class {
     this._growSum = 0;
     this._shrinkSum = 0;
     this._bounds = { left: 0, right: 0, top: 0, bottom: 0 };
+    this.scene.events.once("destroy", this.destroy, this);
     return this;
   }
   /**
@@ -542,7 +544,7 @@ var Flex = class {
    * @param height 
    * @returns This Flex instance. 
    */
-  setDisplaySize(width, height) {
+  setSize(width, height) {
     this.setWidth(width);
     this.setHeight(height);
     return this;

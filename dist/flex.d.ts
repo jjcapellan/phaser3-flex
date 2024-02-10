@@ -13,7 +13,7 @@ declare module "sharedtypes" {
         x: number;
         y: number;
         destroy: () => void;
-        setDisplaySize: (x: number, y: number) => any;
+        setSize: (x: number, y: number) => any;
         setOrigin: (x: number, y: number) => any;
         setScrollFactor: (x: number, y: number) => any;
         setX: (x: number) => any;
@@ -255,7 +255,7 @@ declare module "flex" {
          * @param height
          * @returns This Flex instance.
          */
-        setDisplaySize(width: number, height: number): Flex;
+        setSize(width: number, height: number): Flex;
         /**
          * Disposes all resources used by this object.
          *
