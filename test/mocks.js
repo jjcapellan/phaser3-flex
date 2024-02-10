@@ -2,6 +2,9 @@ export const scene = {
     scale: {
         width: 800,
         height: 600
+    },
+    events: {
+        once: () => {}
     }
 };
 
