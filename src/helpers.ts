@@ -127,7 +127,7 @@ function fill(f: Flex, dim: string) {
     let position = f._bounds[dim == "width" ? "left" : "top"];
 
     f.items.forEach(item => {
-        setItemSize(f, item, freeSpace);
+        if(item["_isFlex"]) setItemSize(f, item, freeSpace);
         item.setOrigin(0, 0);
         item[setPos](position);
         position += item[dim] + f.itemsMargin;
@@ -297,7 +297,7 @@ function setItemDisplaySize(item: Item, width: number, height: number) {
         item["setFixedSize"](width, height);
         return;
     }
-    item.setDisplaySize(width, height);
+    item.setSize(width, height);
 }
 
 function setItems(f) {
