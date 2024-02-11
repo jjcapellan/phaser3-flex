@@ -5,7 +5,7 @@
   "module": "dist/flex.js",
   "browser": "dist/flex.min.js",
   "type": "module",
-  "types": "dist/flex.d.ts",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "build": "npm run test && npm run types && node ./scripts/build.js",
     "dev": "node ./scripts/dev.js",
