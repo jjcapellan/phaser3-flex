@@ -11,7 +11,7 @@
     "dev": "node ./scripts/dev.js",
     "docs": "typedoc src/index.ts",
     "checktypes": "tsc --noemit",
-    "types": "tsc --declaration --emitDeclarationOnly --outFile ./dist/flex.d.ts",
+    "types": "tsc --declaration --emitDeclarationOnly --declarationDir ./dist",
     "test": "npm run checktypes && node ./scripts/buildtest.js && node ./test/test.js"
   },
   "keywords": [
