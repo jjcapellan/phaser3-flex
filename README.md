@@ -22,12 +22,12 @@ npm i phaser3-flex
 ### CDN
 #### Web minified version
 ```
-<script src="https://cdn.jsdelivr.net/gh/jjcapellan/phaser3-flex@0.1.0/dist/flex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/jjcapellan/phaser3-flex@0.1.1/dist/flex.min.js"></script>
 ```
 **Important**: Package is exposed as global *Fbx*
 #### Module version
 ```
-<script type="module" src="https://cdn.jsdelivr.net/gh/jjcapellan/phaser3-flex@0.1.0/dist/flex.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/gh/jjcapellan/phaser3-flex@0.1.1/dist/flex.js"></script>
 ```
 
 
